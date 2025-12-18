@@ -2,7 +2,7 @@ services:
   users-db:
     image: postgres:16
     environment:
-      POSTGRES_DB: users
+      POSTGRES_DB: users        # Ensures 'users' DB is created
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
@@ -13,11 +13,14 @@ services:
   blogs-db:
     image: postgres:16
     environment:
-      POSTGRES_DB: blogs
+      POSTGRES_DB: blogs        # Ensures 'blogs' DB is created
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
-      - "5433:5432"  # Different host port to avoid conflict
+      - "5433:5432"
+    volumes:
+      - blogs-data:/var/lib/postgresql/data
 
 volumes:
   users-data:
+  blogs-data:
