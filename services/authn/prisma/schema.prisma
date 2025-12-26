@@ -1,27 +1,25 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  // Remove this line completely: url = env("DATABASE_URL")
+}
+
+model users {
+  id              String          @id
+  firstName       String
+  lastName        String
+  email           String          @unique
+  passwordHash    String
+  permissionLevel PermissionLevel @default(READER)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime
 }
 
 enum PermissionLevel {
   READER
   WRITER
   EDITOR
-}
-
-model User {
-  id              String           @id @default(uuid())
-  firstName       String
-  lastName        String
-  email           String           @unique
-  passwordHash    String
-  permissionLevel PermissionLevel @default(READER)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-
-  @@map("users")
 }
