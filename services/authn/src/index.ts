@@ -1,5 +1,5 @@
-// src/index.ts
-import express from "express";
+import "./env";
+import express, { Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -9,8 +9,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-dotenv.config();
+import { authenticate, AuthRequest, requirePermission } from "./middleware/auth.middleware";
 
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -118,6 +117,28 @@ app.post("/login", async (req, res) => {
 
 // Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
+
+// Protected route example
+app.get(
+  "/me",
+  authenticate,
+  (req: AuthRequest, res: Response) => {
+    res.json({
+      message: "Protected route accessed",
+      user: req.user,
+    });
+  }
+);
+
+// Example with permission guard
+app.get(
+  "/admin-only",
+  authenticate,
+  requirePermission("EDITOR"),
+  (req: AuthRequest, res: Response) => {
+    res.json({ message: "Welcome, Editor!" });
+  }
+);
 
 app.listen(PORT, () => {
   console.log(`Authn service running on http://localhost:${PORT}`);
