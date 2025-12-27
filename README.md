@@ -6,10 +6,10 @@ Problems:
 
 - Avoiding reliance on Grok or GPT, in favor of source docs. Moving slow to understand the nuts and bolts rather than vibe a function first product with AI.
 - Incongruency of node syntax ie require vs import. Variance between what Prisma, Express, and Node each want.
-- Issues with JWT - in particular iat. Attempting to ping /me with token generated after /login was throwing `invalid or expired token` error. Thought problem was due to clockdrift, however, problem was bc dotenv.config() only runs in index.ts, and your middleware reads process.env.JWT_SECRET at module load time, before dotenv has been initialized, so verification always fails. In index.ts
+- Issues with JWT - in particular iat. Attempting to ping /me with token generated after /login was throwing `invalid or expired token` error. Thought problem was due to clockdrift, however, problem was bc dotenv.config() only runs in index.ts, and middleware reads process.env.JWT_SECRET at module load time, before dotenv has been initialized, so verification always fails. In index.ts
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET!;
-✅ dotenv is loaded before you read the secret
+✅ dotenv is loaded before reading the secret
 ✅ JWT signing works
 
 In auth.middleware.ts
