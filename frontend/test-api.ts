@@ -15,6 +15,7 @@ async function testLogin() {
     console.log('✅ Login successful!');
     console.log('User:', data.user);
     console.log('Token:', data.token.substring(0, 50) + '...');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('❌ Login failed:', error.message);
   }
@@ -25,6 +26,7 @@ async function testHealth() {
   try {
     const data = await apiFetch('/health');
     console.log('✅ Health check:', data);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('❌ Health failed:', error.message);
   }
