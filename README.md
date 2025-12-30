@@ -22,3 +22,6 @@ to fix, created env bootstrap file to load dotenv once, early, everywhere
 `// src/env.ts
 import dotenv from "dotenv";
 dotenv.config();`
+
+Where was I?
+- left off 251230 11:45a CST at grok step 4: login page. need to implement src/routes/login/+page.svelte
