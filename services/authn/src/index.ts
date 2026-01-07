@@ -6,10 +6,14 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { authenticate, AuthRequest, requirePermission } from "./middleware/auth.middleware";
+import {
+  authenticate,
+  AuthRequest,
+  requirePermission,
+} from "./middleware/auth.middleware";
 
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -119,16 +123,12 @@ app.post("/login", async (req, res) => {
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 // Protected route example
-app.get(
-  "/me",
-  authenticate,
-  (req: AuthRequest, res: Response) => {
-    res.json({
-      message: "Protected route accessed",
-      user: req.user,
-    });
-  }
-);
+app.get("/me", authenticate, (req: AuthRequest, res: Response) => {
+  res.json({
+    message: "Protected route accessed",
+    user: req.user,
+  });
+});
 
 // Example with permission guard
 app.get(
