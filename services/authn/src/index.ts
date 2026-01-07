@@ -45,20 +45,22 @@ app.post("/register", async (req, res) => {
   }
 
   try {
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.users.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(409).json({ error: "Email already in use" });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
 
-    const user = await prisma.user.create({
+    const user = await prisma.users.create({
       data: {
+        id: crypto.randomUUID(),
         firstName,
         lastName,
         email,
         passwordHash,
         permissionLevel: permissionLevel || "READER", // default to READER
+        updatedAt: new Date(),
       },
     });
 
@@ -90,7 +92,7 @@ app.post("/login", async (req, res) => {
   }
 
   try {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.users.findUnique({ where: { email } });
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
