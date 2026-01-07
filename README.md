@@ -23,8 +23,11 @@ to fix, created env bootstrap file to load dotenv once, early, everywhere
 import dotenv from "dotenv";
 dotenv.config();`
 
+- prisma config with adapters, node versions, are all very particular. also read errors and manually search network feedback. listen to editor errors and solve manually. had missing fields that editor noticed, but grok can't notice bc not aware of schema structure. api fields need to match schema.
+
 Where was I?
 
+- left off 260107 able to login succesfully
 - left off 251230 11:45a CST at grok step 4: login page. need to implement src/routes/login/+page.svelte
 
 To do:
