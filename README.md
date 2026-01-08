@@ -34,5 +34,9 @@ Where was I?
 
 To do:
 
+- create dummy users
+- create BlogTextarea and CommentTextarea components
+- set up frontend logic to conditionally render all four states of authentication.
+  --do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt?
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
