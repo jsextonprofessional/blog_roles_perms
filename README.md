@@ -29,6 +29,7 @@ dotenv.config();`
 
 Where was I?
 
+- left off 260108 with most basic ui setup. posts and comments render with dummy data.
 - left off 260107 able to login succesfully
 - left off 251230 11:45a CST at grok step 4: login page. need to implement src/routes/login/+page.svelte
 
