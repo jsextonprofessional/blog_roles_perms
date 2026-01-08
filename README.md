@@ -1,5 +1,7 @@
 A blog app written in SvelteKit, NodeJS, Express, Prisma.
-The goal is to demonstrate proficiency in API Gateways + Microservices, Authentication, Authorization (roles and permissions)
+
+🎯 The goal is to demonstrate proficiency in API Gateways + Microservices, Authentication + Authorization (roles and permissions)
+
 App allows CRUD of blog posts and comments. There are three levels of users - READER, WRITER, EDITOR, each with elevating privilege of access and features.
 
 Problems:
@@ -32,4 +34,5 @@ Where was I?
 
 To do:
 
+- resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
