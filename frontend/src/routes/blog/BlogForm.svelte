@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
 
-	import type { PageData } from '../$types';
-
-	let { form }: PageData = $props();
+	let form = $derived(page.form);
 
 	let body = $state('');
 </script>
