@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CommentBody from './CommentBody.svelte';
+	import CommentTextarea from './CommentTextarea.svelte';
 
 	let { title, body, comments } = $props();
 </script>
@@ -8,14 +9,19 @@
 	<h1>{title}</h1>
 	<div>{@html body}</div>
 
-	{#each comments as comment}
-		<CommentBody
-			id={comment.id}
-			postId={comment.postId}
-			authorId={comment.authorId}
-			body={comment.body}
-			createdAt={comment.createdAt}
-			updatedAt={comment.updatedAt}
-		/>
-	{/each}
+	<!-- if USER -->
+	<div>
+		{#each comments as comment}
+			<CommentBody
+				id={comment.id}
+				postId={comment.postId}
+				authorId={comment.authorId}
+				body={comment.body}
+				createdAt={comment.createdAt}
+				updatedAt={comment.updatedAt}
+			/>
+		{/each}
+
+		<CommentTextarea body="Write your comment here..." />
+	</div>
 </div>

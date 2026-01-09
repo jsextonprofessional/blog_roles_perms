@@ -2,7 +2,12 @@ A blog app written in SvelteKit, NodeJS, Express, Prisma.
 
 🎯 The goal is to demonstrate proficiency in API Gateways + Microservices, Authentication + Authorization (roles and permissions)
 
-App allows CRUD of blog posts and comments. There are three levels of users - READER, WRITER, EDITOR, each with elevating privilege of access and features.
+App allows CRUD of blog posts and comments. There are four levels of users -
+1 guest
+2 user
+3 author
+4 admin
+each with elevating privilege of access and features.
 
 Problems:
 
@@ -35,8 +40,8 @@ Where was I?
 
 To do:
 
-- create dummy users
 - create BlogTextarea and CommentTextarea components
+- create dummy users
 - set up frontend logic to conditionally render all four states of authentication.
   --do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt?
 - resolve home / route to /blog
