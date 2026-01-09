@@ -1,5 +1,7 @@
 A blog app written in SvelteKit, NodeJS, Express, Prisma.
-The goal is to demonstrate proficiency in API Gateways + Microservices, Authentication, Authorization (roles and permissions)
+
+🎯 The goal is to demonstrate proficiency in API Gateways + Microservices, Authentication + Authorization (roles and permissions)
+
 App allows CRUD of blog posts and comments. There are three levels of users - READER, WRITER, EDITOR, each with elevating privilege of access and features.
 
 Problems:
@@ -27,9 +29,15 @@ dotenv.config();`
 
 Where was I?
 
+- left off 260108 with most basic ui setup. posts and comments render with dummy data.
 - left off 260107 able to login succesfully
 - left off 251230 11:45a CST at grok step 4: login page. need to implement src/routes/login/+page.svelte
 
 To do:
 
+- create dummy users
+- create BlogTextarea and CommentTextarea components
+- set up frontend logic to conditionally render all four states of authentication.
+  --do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt?
+- resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
