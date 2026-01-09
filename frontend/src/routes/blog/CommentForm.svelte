@@ -4,8 +4,6 @@
 	import { page } from '$app/state';
 
 	let form = $derived(page.form);
-
-	let { content } = $props();
 </script>
 
 <div>
@@ -17,9 +15,7 @@
 		<textarea
 			name="content"
 			class="w-full rounded-md border-2 border-gray-300 p-2"
-			bind:value={content}
-			placeholder="Write your comment here..."
-			rows="5"
+			placeholder="this is a placeholder for comment..."
 		></textarea>
 
 		<Button label="Submit Comment" type="submit" />

@@ -2,9 +2,6 @@
 	import BlogBody from './BlogBody.svelte';
 	import BlogForm from './BlogForm.svelte';
 	import { blogPosts, comments } from '$lib/dummyData';
-	import type { PageProps } from './$types';
-
-	let { form } = $props<PageProps>();
 </script>
 
 <div class="flex flex-row border-2 border-yellow-500">
@@ -18,6 +15,6 @@
 		{/each}
 	</div>
 	<div class="flex basis-1/3 flex-col">
-		<BlogForm {form} />
+		<BlogForm />
 	</div>
 </div>

@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
-
 	import { page } from '$app/state';
-	let form = $derived(page.form);
 
-	let { body } = $props();
+	let form = $derived(page.form);
 </script>
 
 <div>
@@ -18,7 +16,6 @@
 		<textarea
 			name="body"
 			class="w-full rounded-md border-2 border-gray-300 p-2"
-			bind:value={body}
 			placeholder="Write your blurb here..."
 			rows="10"
 		></textarea>
