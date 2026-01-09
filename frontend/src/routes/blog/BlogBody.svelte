@@ -22,6 +22,6 @@
 			/>
 		{/each}
 
-		<CommentForm body="Write your comment here..." />
+		<CommentForm content="Write your comment here..." />
 	</div>
 </div>
