@@ -1,7 +1,10 @@
 <script lang="ts">
 	import BlogBody from './BlogBody.svelte';
 	import { blogPosts, comments } from '$lib/dummyData';
-	import BlogTextarea from './BlogTextarea.svelte';
+	import BlogForm from './BlogForm.svelte';
+	import type { PageData } from '../$types';
+
+	let { data, form }: PageData = $props();
 </script>
 
 <div class="flex flex-row border-2 border-yellow-500">
@@ -15,6 +18,6 @@
 		{/each}
 	</div>
 	<div class="flex basis-1/3 flex-col">
-		<BlogTextarea body="Write your blog post here..." />
+		<BlogForm {form} body="Write your blog post here..." />
 	</div>
 </div>
