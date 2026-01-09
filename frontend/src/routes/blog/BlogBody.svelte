@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CommentBody from './CommentBody.svelte';
-	import CommentTextarea from './CommentTextarea.svelte';
+	import CommentForm from './CommentForm.svelte';
 
 	let { title, body, comments } = $props();
 </script>
@@ -22,6 +22,6 @@
 			/>
 		{/each}
 
-		<CommentTextarea body="Write your comment here..." />
+		<CommentForm body="Write your comment here..." />
 	</div>
 </div>
