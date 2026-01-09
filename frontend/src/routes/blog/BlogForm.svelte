@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { page } from '$app/state';
 	import Button from '$lib/components/Button.svelte';
 
+	import { page } from '$app/state';
 	let form = $derived(page.form);
 
-	let body = $state('');
+	let { body } = $props();
 </script>
 
 <div>
