@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
-	import { actions } from './proxy+page.server';
 
-	let { form } = $props();
+	import type { PageData } from '../$types';
+
+	let { form }: PageData = $props();
 
 	let body = $state('');
 </script>
