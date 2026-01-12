@@ -13,7 +13,7 @@ export interface User {
 	email: string;
 	firstName: string;
 	lastName: string;
-	permissionLevel: Role;
+	role: Role;
 }
 
 export interface BlogPost {
