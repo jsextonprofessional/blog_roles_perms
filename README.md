@@ -9,6 +9,20 @@ App allows CRUD of blog posts and comments. There are four levels of users -
 4 admin
 each with elevating privilege of access and features.
 
+---
+
+to run docker:
+`docker desktop start` and `docker compose up` in root of blog_roles_perms
+-- should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
+
+to run authn:
+`pnpm dev` in services/authn
+
+to run frontend:
+`pnpm run dev --open` in blog_roles_perms/frontend
+
+---
+
 Problems:
 
 - Avoiding reliance on Grok or GPT, in favor of source docs. Moving slow to understand the nuts and bolts rather than vibe a function first product with AI.
@@ -43,16 +57,7 @@ To do:
 - create dummy users
 - set up frontend logic to conditionally render all four states of authentication.
   --do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt?
+- refactor schema.prisma for correct role shapes
 - refactor /login to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
-
-to run docker:
-`docker desktop start` and `docker compose up` in root of blog_roles_perms
--- should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
-
-to run authn:
-`pnpm dev` in services/authn
-
-to run frontend:
-`pnpm run dev --open` in blog_roles_perms/frontend
