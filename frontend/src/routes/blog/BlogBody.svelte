@@ -3,6 +3,7 @@
 	import CommentForm from './CommentForm.svelte';
   import { auth } from '$lib/stores/auth';
 	import Button from '$lib/components/Button.svelte';
+	import { Role } from '$lib/types';
 
 	let { title, body, comments, postId, authorId } = $props();
 </script>
@@ -16,6 +17,10 @@
     {#if $auth.user && $auth.user.id === authorId}
     <div class="flex flex-row gap-4 justify-end">
       <Button label="Edit Post" type="button" theme="warning" />
+      <Button label="Delete Post" type="button" theme="danger" />
+    </div>
+    {:else if $auth.user && $auth.user.role === Role.ADMIN}
+    <div class="flex flex-row gap-4 justify-end">
       <Button label="Delete Post" type="button" theme="danger" />
     </div>
     {/if}
