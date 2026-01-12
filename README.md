@@ -46,3 +46,13 @@ To do:
 - refactor /login to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
+
+to run docker:
+`docker desktop start` and `docker compose up` in root of blog_roles_perms
+-- should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
+
+to run authn:
+`pnpm dev` in services/authn
+
+to run frontend:
+`pnpm run dev --open` in blog_roles_perms/frontend
