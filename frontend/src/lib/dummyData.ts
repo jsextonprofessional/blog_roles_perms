@@ -1,5 +1,9 @@
 import type { BlogPost, Comment } from './types';
 
+export const users = [
+	//  four types of users to demonstra
+];
+
 export const blogPosts: BlogPost[] = [
 	{
 		id: '1',
@@ -11,7 +15,7 @@ export const blogPosts: BlogPost[] = [
 	},
 	{
 		id: '2',
-		authorId: 'a2',
+		authorId: '57f6fcf5-7d6c-4bb9-9b01-66be6f531e7f',
 		title: 'Second Post',
 		body: 'This is the body of the second post.',
 		createdAt: new Date('2024-02-01T11:00:00Z'),
@@ -31,7 +35,7 @@ export const comments: Comment[] = [
 	{
 		id: 'c1',
 		postId: '1',
-		authorId: 'u1',
+		authorId: '57f6fcf5-7d6c-4bb9-9b01-66be6f531e7f',
 		body: 'This is comment 1 on post 1.',
 		createdAt: new Date('2024-01-02T10:00:00Z'),
 		updatedAt: new Date('2024-01-02T10:00:00Z')

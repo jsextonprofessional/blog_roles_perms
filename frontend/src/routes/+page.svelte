@@ -4,6 +4,8 @@
 </script>
 
 <div class="mx-auto mt-10 max-w-4xl">
+  <div>Is user logged in? → {$auth.user ? 'YES' : 'NO'}</div>
+  <div>Current user object: {JSON.stringify($auth.user ?? 'null')}</div>
 	<h1 class="mb-6 text-4xl font-bold">Welcome to the Blog App</h1>
 
 	{#if user}

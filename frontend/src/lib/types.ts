@@ -1,9 +1,19 @@
+// from gpt 260112
+// type Session =
+//   | { user: null }
+//   | { user: User };
+
+export enum Role {
+	USER = 'USER',
+	ADMIN = 'ADMIN'
+}
+
 export interface User {
 	id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
-	permissionLevel: 'READER' | 'WRITER' | 'EDITOR';
+	role: Role;
 }
 
 export interface BlogPost {

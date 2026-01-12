@@ -2,7 +2,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { auth, logout } from '$lib/stores/auth';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	$: user = $auth.user;
 </script>
@@ -19,7 +19,7 @@
 				</span>
 				<button on:click={logout} class="hover:underline"> Logout </button>
 			{:else}
-				<a href="/login" class:underline={$page.url.pathname === '/login'} class="hover:underline">
+				<a href="/login" class:underline={page.url.pathname === '/login'} class="hover:underline">
 					Login
 				</a>
 			{/if}
