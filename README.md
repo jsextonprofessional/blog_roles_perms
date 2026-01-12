@@ -48,6 +48,7 @@ dotenv.config();`
 
 Where was I?
 
+- left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
 - left off 260108 with most basic ui setup. posts and comments render with dummy data.
 - left off 260107 able to login succesfully
 - left off 251230 11:45a CST at grok step 4: login page. need to implement src/routes/login/+page.svelte
@@ -57,7 +58,8 @@ To do:
 - create dummy users
 - set up frontend logic to conditionally render all four states of authentication.
   --do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt?
-- refactor schema.prisma for correct role shapes
+- refactor schema.prisma for correct role shapes. update permissionLevel to role, and only have two options USER and ADMIN
+- consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
