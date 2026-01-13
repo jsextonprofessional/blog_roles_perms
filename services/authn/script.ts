@@ -1,5 +1,5 @@
-import {} from "./generated/prisma/enums";
 import { prisma } from "./lib/prisma";
+import { Role } from "@prisma/client";
 
 async function main() {
   const user = await prisma.users.create({
@@ -16,7 +16,7 @@ async function main() {
   });
   console.log("Created user:", user);
 
-  // Example of querying users by permission level
+  // Example of querying users by role
   // const writers = await prisma.users.findMany({
   //   where: {
   //     role: Role.USER,
