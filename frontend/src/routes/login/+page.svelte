@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { apiFetch } from '$lib/api';
-	import { auth, login } from '$lib/stores/auth';
+	import { login } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
+	import Button from '$lib/components/Button.svelte';
 
 	let email = '';
 	let password = '';
@@ -74,4 +75,8 @@
 			Demo credentials: <strong>admin@example.com</strong> / <strong>supersecret</strong>
 		</p>
 	</form>
+	<div class="mt-6 text-center text-sm text-gray-600">
+		Don't have an account? Click below to register.
+	</div>
+	<Button type="button" label="Register" theme="primary" onclick={() => goto('/register')} />
 </div>
