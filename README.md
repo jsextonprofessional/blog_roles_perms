@@ -48,7 +48,7 @@ dotenv.config();`
 
 Where was I?
 
-- left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Begins blog service scaffolding.
+- left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
 - left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
 - left off 260108 with most basic ui setup. posts and comments render with dummy data.
 - left off 260107 able to login succesfully
