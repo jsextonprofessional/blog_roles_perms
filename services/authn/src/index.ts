@@ -12,7 +12,7 @@ import jwt from "jsonwebtoken";
 import {
   authenticate,
   AuthRequest,
-  requirePermission,
+  requireRole,
 } from "./middleware/auth.middleware";
 
 const app = express();
@@ -136,7 +136,7 @@ app.get("/me", authenticate, (req: AuthRequest, res: Response) => {
 app.get(
   "/admin-only",
   authenticate,
-  requirePermission("ADMIN"),
+  requireRole("ADMIN"),
   (req: AuthRequest, res: Response) => {
     res.json({ message: "Welcome, Admin!" });
   }
