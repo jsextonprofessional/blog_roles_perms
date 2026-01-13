@@ -4,6 +4,8 @@
 	import { goto } from '$app/navigation';
 	import { loginWithEmail } from '$lib/auth/auth.mutations';
 
+	let firstName = '';
+	let lastName = '';
 	let email = '';
 	let password = '';
 	let loading = false;
@@ -16,7 +18,7 @@
 		try {
 			await apiFetch('register', {
 				method: 'POST',
-				body: JSON.stringify({ email, password })
+				body: JSON.stringify({ firstName, lastName, email, password })
 			});
 
 			await loginWithEmail(email, password);
@@ -39,6 +41,30 @@
 	{/if}
 
 	<form on:submit|preventDefault={handleRegistration} class="space-y-6">
+		<div>
+			<label for="firstName" class="mb-2 block text-sm font-medium">First Name</label>
+			<input
+				id="firstName"
+				type="text"
+				bind:value={firstName}
+				required
+				class="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+				placeholder="John"
+			/>
+		</div>
+
+		<div>
+			<label for="lastName" class="mb-2 block text-sm font-medium">Last Name</label>
+			<input
+				id="lastName"
+				type="text"
+				bind:value={lastName}
+				required
+				class="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+				placeholder="Doe"
+			/>
+		</div>
+
 		<div>
 			<label for="email" class="mb-2 block text-sm font-medium">Email</label>
 			<input
