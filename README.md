@@ -21,6 +21,12 @@ to run authn:
 to run frontend:
 `pnpm run dev --open` in blog_roles_perms/frontend
 
+to run migrations:
+`pnpm prisma migrate dev` in services/authn
+
+to generate types:
+`rm -rf generated` in services/authn, then `pnpm prisma generate`
+
 ---
 
 Problems:
