@@ -48,7 +48,7 @@ dotenv.config();`
 
 Where was I?
 
-- left off 260113 updated authn schema.
+- left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Begins blog service scaffolding.
 - left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
 - left off 260108 with most basic ui setup. posts and comments render with dummy data.
 - left off 260107 able to login succesfully
@@ -56,10 +56,19 @@ Where was I?
 
 To do:
 
+- create blog service
+  -- setup db with blogs and comments entities
+  -- allow users to submit blog posts
+  -- allow users to comment on blog posts
+  -- allow own users to delete blog posts
+  -- allow own users to edit blog posts
+  -- allow own users to delete comments
+  -- allow own users to edit comments
+  -- allow admins to delete blog posts and comments
 - add destructive actions/mutations abilities to frontend buttons.
 - create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - consider replacing "if (browser)" for routes/api/me for auth
-- refactor /login to use sveltekit 5 form actions pattern
+- refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
 - ✅ do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt? -- using (browser) block in store to handle this.
