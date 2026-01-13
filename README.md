@@ -56,8 +56,6 @@ Where was I?
 
 To do:
 
-- create registration ui page
-- create registration + authn functionality
 - add destructive actions/mutations abilities to frontend buttons.
 - create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - consider replacing "if (browser)" for routes/api/me for auth
@@ -66,3 +64,5 @@ To do:
 - build out functionality to demonstrate differences in authn and authz
 - ✅ do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt? -- using (browser) block in store to handle this.
 - ✅ refactor schema.prisma for correct role shapes. update permissionLevel to role, and only have two options USER and ADMIN
+- ✅ create registration ui page
+- ✅ create registration + authn functionality
