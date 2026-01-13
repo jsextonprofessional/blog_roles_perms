@@ -15,7 +15,7 @@
 			{#if user}
 				<span class="font-medium">
 					{user.firstName}
-					<span class="rounded bg-blue-600 px-2 py-1 text-sm">({user.permissionLevel})</span>
+					<span class="rounded bg-blue-600 px-2 py-1 text-sm">({user.role})</span>
 				</span>
 				<button on:click={logout} class="hover:underline"> Logout </button>
 			{:else}
