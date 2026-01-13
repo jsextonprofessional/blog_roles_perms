@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 export interface AuthRequest extends Request {
   user?: {
     userId: string;
-    permissionLevel: string;
+    role: string;
   };
 }
 
@@ -28,12 +28,12 @@ export const authenticate = (
   try {
     const payload = jwt.verify(token, JWT_SECRET) as {
       userId: string;
-      permissionLevel: string;
+      role: string;
     };
 
     req.user = {
       userId: payload.userId,
-      permissionLevel: payload.permissionLevel,
+      role: payload.role,
     };
 
     next();
@@ -44,15 +44,15 @@ export const authenticate = (
 };
 
 // Optional: Role-based guard
-export const requirePermission =
-  (requiredLevel: "READER" | "WRITER" | "EDITOR") =>
+export const requireRole =
+  (requiredRole: "USER" | "ADMIN") =>
   (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const levels = { READER: 1, WRITER: 2, EDITOR: 3 };
-    if (levels[req.user.permissionLevel as keyof typeof levels] < levels[requiredLevel]) {
+    const roles = { USER: 1, ADMIN: 2 };
+    if (roles[req.user.role as keyof typeof roles] < roles[requiredRole]) {
       return res.status(403).json({ error: "Insufficient permissions" });
     }
 

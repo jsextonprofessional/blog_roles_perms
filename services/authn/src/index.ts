@@ -12,7 +12,7 @@ import jwt from "jsonwebtoken";
 import {
   authenticate,
   AuthRequest,
-  requirePermission,
+  requireRole,
 } from "./middleware/auth.middleware";
 
 const app = express();
@@ -28,9 +28,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // Helper to sign JWT
-const signJwt = (userId: string, permissionLevel: string) => {
+const signJwt = (userId: string, role: string) => {
   return jwt.sign(
-    { userId, permissionLevel },
+    { userId, role },
     JWT_SECRET,
     { expiresIn: "7d" } // adjust as needed
   );
@@ -38,7 +38,7 @@ const signJwt = (userId: string, permissionLevel: string) => {
 
 // REGISTER
 app.post("/register", async (req, res) => {
-  const { firstName, lastName, email, password, permissionLevel } = req.body;
+  const { firstName, lastName, email, password, role } = req.body;
 
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -59,12 +59,12 @@ app.post("/register", async (req, res) => {
         lastName,
         email,
         passwordHash,
-        permissionLevel: permissionLevel || "READER", // default to READER
+        role: role || "USER", // default to USER
         updatedAt: new Date(),
       },
     });
 
-    const token = signJwt(user.id, user.permissionLevel);
+    const token = signJwt(user.id, user.role);
 
     res.status(201).json({
       message: "User created",
@@ -73,7 +73,7 @@ app.post("/register", async (req, res) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        permissionLevel: user.permissionLevel,
+        role: user.role,
       },
       token,
     });
@@ -102,7 +102,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const token = signJwt(user.id, user.permissionLevel);
+    const token = signJwt(user.id, user.role);
 
     res.json({
       message: "Login successful",
@@ -111,7 +111,7 @@ app.post("/login", async (req, res) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        permissionLevel: user.permissionLevel,
+        role: user.role,
       },
       token,
     });
@@ -136,9 +136,9 @@ app.get("/me", authenticate, (req: AuthRequest, res: Response) => {
 app.get(
   "/admin-only",
   authenticate,
-  requirePermission("EDITOR"),
+  requireRole("ADMIN"),
   (req: AuthRequest, res: Response) => {
-    res.json({ message: "Welcome, Editor!" });
+    res.json({ message: "Welcome, Admin!" });
   }
 );
 

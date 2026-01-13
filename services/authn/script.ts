@@ -1,28 +1,28 @@
-import { PermissionLevel } from './generated/prisma/enums'
-import { prisma } from './lib/prisma'
+import { prisma } from "./lib/prisma";
+import { Role } from "@prisma/client";
 
 async function main() {
   const user = await prisma.users.create({
     data: {
-      id: 'user-1',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@john.john',
-      passwordHash: 'hashedpassword',
-      permissionLevel: PermissionLevel.WRITER,
+      id: "user-1",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john@john.john",
+      passwordHash: "hashedpassword",
+      role: Role.USER,
       createdAt: new Date(),
-      updatedAt: new Date()
-    }
-  })
-  console.log('Created user:', user)
+      updatedAt: new Date(),
+    },
+  });
+  console.log("Created user:", user);
 
-  // Example of querying users by permission level
-  const writers = await prisma.users.findMany({
-    where: {
-      permissionLevel: PermissionLevel.WRITER
-    }
-  })
-  console.log('Writers:', writers)
+  // Example of querying users by role
+  // const writers = await prisma.users.findMany({
+  //   where: {
+  //     role: Role.USER,
+  //   },
+  // });
+  // console.log("Writers:", writers);
   // // Create a new user with a post
   // const user = await prisma.user.create({
   //   data: {
@@ -53,10 +53,10 @@ async function main() {
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

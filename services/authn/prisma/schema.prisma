@@ -13,13 +13,12 @@ model users {
   lastName        String
   email           String          @unique
   passwordHash    String
-  permissionLevel PermissionLevel @default(READER)
+  role            Role @default(USER)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime
 }
 
-enum PermissionLevel {
-  READER
-  WRITER
-  EDITOR
+enum Role {
+  USER
+  ADMIN
 }
