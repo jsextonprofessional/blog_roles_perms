@@ -23,7 +23,7 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
 	let data;
 	try {
 		data = await res.json();
-	} catch (e) {
+	} catch {
 		data = null;
 	}
 
