@@ -13,19 +13,38 @@ each with elevating privilege of access and features.
 
 to run docker:
 `docker desktop start` and `docker compose up` in root of blog_roles_perms
--- should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
+
+should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
 
 to run authn:
+
 `pnpm dev` in services/authn
 
 to run frontend:
+
 `pnpm run dev --open` in blog_roles_perms/frontend
 
 to run migrations:
+
 `pnpm prisma migrate dev` in services/authn
 
 to generate types:
+
 `rm -rf generated` in services/authn, then `pnpm prisma generate`
+
+---
+
+### DB Stuff
+
+connect to db from host:
+`psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
+local pw is usually `password`
+
+show all tables in db:
+`\dt`
+
+query all users:
+`SELECT * FROM users;`
 
 ---
 
