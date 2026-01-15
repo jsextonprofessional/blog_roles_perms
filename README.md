@@ -71,6 +71,11 @@ dotenv.config();`
 
 - prisma config with adapters, node versions, are all very particular. also read errors and manually search network feedback. listen to editor errors and solve manually. had missing fields that editor noticed, but grok can't notice bc not aware of schema structure. api fields need to match schema.
 
+CONNECT EXISTING DATABASE:
+
+1. Configure your DATABASE_URL in prisma.config.ts
+2. Run prisma db pull to introspect your database.
+
 Where was I?
 
 - left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
@@ -90,6 +95,8 @@ To do:
   -- allow own users to delete comments
   -- allow own users to edit comments
   -- allow admins to delete blog posts and comments
+- update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change refernces throughout app.
+- what is authn/script.ts doing?
 - add destructive actions/mutations abilities to frontend buttons.
 - create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - consider replacing "if (browser)" for routes/api/me for auth
