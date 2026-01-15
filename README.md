@@ -41,10 +41,10 @@ connect to db from host:
 local pw is usually `password`
 
 show all tables in db:
-`\dt`
+`\dt` in psql console after connecting to db
 
 query all users:
-`SELECT * FROM users;`
+`SELECT * FROM users;` in psql console after connecting to db
 
 ---
 
