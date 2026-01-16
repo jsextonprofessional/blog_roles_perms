@@ -13,13 +13,38 @@ each with elevating privilege of access and features.
 
 to run docker:
 `docker desktop start` and `docker compose up` in root of blog_roles_perms
--- should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
+
+should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
 
 to run authn:
+
 `pnpm dev` in services/authn
 
 to run frontend:
+
 `pnpm run dev --open` in blog_roles_perms/frontend
+
+to run migrations:
+
+`pnpm prisma migrate dev` in services/authn
+
+to generate types:
+
+`rm -rf generated` in services/authn, then `pnpm prisma generate`
+
+---
+
+### DB Stuff
+
+connect to db from host:
+`psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
+local pw is usually `password`
+
+show all tables in db:
+`\dt` in psql console after connecting to db
+
+query all users:
+`SELECT * FROM users;` in psql console after connecting to db
 
 ---
 
@@ -46,9 +71,14 @@ dotenv.config();`
 
 - prisma config with adapters, node versions, are all very particular. also read errors and manually search network feedback. listen to editor errors and solve manually. had missing fields that editor noticed, but grok can't notice bc not aware of schema structure. api fields need to match schema.
 
+CONNECT EXISTING DATABASE:
+
+1. Configure your DATABASE_URL in prisma.config.ts
+2. Run prisma db pull to introspect your database.
+
 Where was I?
 
-- left off 260113 updated authn schema.
+- left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
 - left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
 - left off 260108 with most basic ui setup. posts and comments render with dummy data.
 - left off 260107 able to login succesfully
@@ -56,12 +86,25 @@ Where was I?
 
 To do:
 
+- create blog service
+  -- setup db with blogs and comments entities
+  -- allow users to submit blog posts
+  -- allow users to comment on blog posts
+  -- allow own users to delete blog posts
+  -- allow own users to edit blog posts
+  -- allow own users to delete comments
+  -- allow own users to edit comments
+  -- allow admins to delete blog posts and comments
+- update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change refernces throughout app.
+- what is authn/script.ts doing?
 - add destructive actions/mutations abilities to frontend buttons.
 - create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - consider replacing "if (browser)" for routes/api/me for auth
-- refactor /login to use sveltekit 5 form actions pattern
+- refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
+- clean up authn/index.ts - unused requests and imports
+- investigate if env.ts is actually doing anything in authn/src and blog/src. consider removing.
 - ✅ do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt? -- using (browser) block in store to handle this.
 - ✅ refactor schema.prisma for correct role shapes. update permissionLevel to role, and only have two options USER and ADMIN
 - ✅ create registration ui page

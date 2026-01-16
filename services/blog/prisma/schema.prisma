@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model article {
+  id          String    @id
+  title       String
+  content     String
+  authorId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+}
+
+model comment {
+  id          String    @id
+  articleId   String
+  authorId    String
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+}
