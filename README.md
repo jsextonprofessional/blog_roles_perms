@@ -87,7 +87,7 @@ Where was I?
 To do:
 
 - create blog service
-  -- setup db with blogs and comments entities
+  -- ✅ setup db with blogs and comments entities
   -- allow users to submit blog posts
   -- allow users to comment on blog posts
   -- allow own users to delete blog posts
