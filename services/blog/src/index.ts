@@ -13,10 +13,11 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // create article
-app.post("/articles", async (req, res) => {
-  // Implementation here
-  res.status(201).json({ message: "Article created" });
-}
+// app.post("/articles", async (req, res) => {
+//   // Implementation here
+
+//   res.status(201).json({ message: "Article created" });
+// }
 // read articles
 // update article
 // delete article
