@@ -103,6 +103,8 @@ To do:
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
 - build out functionality to demonstrate differences in authn and authz
+- clean up authn/index.ts - unused requests and imports
+- investigate if env.ts is actually doing anything in authn/src and blog/src. consider removing.
 - ✅ do i need react style store + reducer to track authz state of application? something like that would accelerate dev time, but not sure if best practice. is best practice to just read user level from db? does that query get run every time to read permissions, or stored in and read from jwt? -- using (browser) block in store to handle this.
 - ✅ refactor schema.prisma for correct role shapes. update permissionLevel to role, and only have two options USER and ADMIN
 - ✅ create registration ui page
