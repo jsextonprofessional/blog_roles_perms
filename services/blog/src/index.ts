@@ -29,12 +29,9 @@ app.post("/v1/articles", async (req, res) => {
   try {
     const article = await prisma.article.create({
       data: {
-        id: crypto.randomUUID(),
         title,
         content,
         authorId,
-        createdAt: new Date(),
-        updatedAt: new Date(),
       },
     });
 
@@ -65,7 +62,39 @@ app.get("/v1/articles", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 // update article
+app.patch("/v1/articles/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+
+  try {
+    const article = await prisma.article.update({
+      where: { id },
+      data: {
+        title,
+        content,
+        updatedAt: new Date(),
+      },
+    });
+
+    res.status(200).json({
+      message: "Article updated",
+      article: {
+        id: article.id,
+        title: article.title,
+        content: article.content,
+        authorId: article.authorId,
+        createdAt: article.createdAt,
+        updatedAt: article.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating article:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // delete article
 
 // create comment
