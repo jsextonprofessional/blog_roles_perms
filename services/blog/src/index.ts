@@ -70,7 +70,7 @@ app.patch("/v1/articles/:id", async (req, res) => {
 
   try {
     const article = await prisma.article.update({
-      where: { id },
+      where: { id: parseInt(id, 10) },
       data: {
         title,
         content,
@@ -96,6 +96,20 @@ app.patch("/v1/articles/:id", async (req, res) => {
 });
 
 // delete article
+app.delete("/v1/articles/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.article.delete({
+      where: { id: parseInt(id, 10) },
+    });
+
+    res.status(200).json({ message: "Article deleted" });
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // create comment
 // read comments
