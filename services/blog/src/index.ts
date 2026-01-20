@@ -3,14 +3,10 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/prisma";
+import { prisma } from "../lib/prisma";
+import articlesRoutes from "../routes/articles.routes";
 
 const app = express();
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
 const PORT = process.env.PORT || 4001;
 
 app.use(cors());
@@ -52,16 +48,16 @@ app.post("/v1/articles", async (req, res) => {
   }
 });
 
-// read articles
-app.get("/v1/articles", async (req, res) => {
-  try {
-    const articles = await prisma.article.findMany();
-    res.status(200).json({ articles });
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+// // read articles
+// app.get("/v1/articles", async (req, res) => {
+//   try {
+//     const articles = await prisma.article.findMany();
+//     res.status(200).json({ articles });
+//   } catch (error) {
+//     console.error("Error fetching articles:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 
 // update article
 app.patch("/v1/articles/:id", async (req, res) => {
@@ -112,9 +108,12 @@ app.delete("/v1/articles/:id", async (req, res) => {
 });
 
 // create comment
+
 // read comments
 // update comment
 // delete comment
+
+app.use("/v1", articlesRoutes);
 
 // Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
