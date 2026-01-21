@@ -32,7 +32,7 @@ const signJwt = (userId: string, role: string) => {
   return jwt.sign(
     { userId, role },
     JWT_SECRET,
-    { expiresIn: "7d" } // adjust as needed
+    { expiresIn: "7d" }, // adjust as needed
   );
 };
 
@@ -45,7 +45,7 @@ app.post("/register", async (req, res) => {
   }
 
   try {
-    const existingUser = await prisma.users.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(409).json({ error: "Email already in use" });
     }
@@ -139,7 +139,7 @@ app.get(
   requireRole("ADMIN"),
   (req: AuthRequest, res: Response) => {
     res.json({ message: "Welcome, Admin!" });
-  }
+  },
 );
 
 app.listen(PORT, () => {
