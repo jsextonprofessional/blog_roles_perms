@@ -30,3 +30,9 @@ export async function updateArticle(
     },
   });
 }
+
+export async function deleteArticle(id: number) {
+  return await prisma.article.delete({
+    where: { id },
+  });
+}
