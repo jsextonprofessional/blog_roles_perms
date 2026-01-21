@@ -84,7 +84,9 @@ CONNECT EXISTING DATABASE:
 1. Configure your DATABASE_URL in prisma.config.ts
 2. Run prisma db pull to introspect your database.
 
-Where was I?
+---
+
+### Where was I?
 
 - left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
 - left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
@@ -92,7 +94,11 @@ Where was I?
 - left off 260107 able to login succesfully
 - left off 251230 11:45a CST at grok step 4: login page. need to implement src/routes/login/+page.svelte
 
-To do:
+---
+
+---
+
+### To do:
 
 - create blog service
   -- ✅ setup db with blogs and comments entities
@@ -103,7 +109,7 @@ To do:
   -- allow own users to delete comments
   -- allow own users to edit comments
   -- allow admins to delete blog posts and comments
-- update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change refernces throughout app.
+- update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - what is authn/script.ts doing?
 - add destructive actions/mutations abilities to frontend buttons.
 - create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
@@ -117,3 +123,5 @@ To do:
 - ✅ refactor schema.prisma for correct role shapes. update permissionLevel to role, and only have two options USER and ADMIN
 - ✅ create registration ui page
 - ✅ create registration + authn functionality
+
+---
