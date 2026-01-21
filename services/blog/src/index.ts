@@ -4,6 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import articlesRoutes from "../routes/articles.routes";
+import commentsRoutes from "../routes/comments.routes";
 
 const app = express();
 const PORT = process.env.PORT || 4001;
@@ -13,7 +14,9 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
+// move these into index to centralize
 app.use("/v1", articlesRoutes);
+app.use("/v1", commentsRoutes);
 
 // Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));

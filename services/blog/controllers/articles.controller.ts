@@ -39,7 +39,7 @@ export async function updateArticle(req: Request, res: Response) {
   const { title, content } = req.body;
 
   try {
-    const article = await ArticlesService.updateArticle(parseInt(id, 10), {
+    const article = await ArticlesService.updateArticle(id, {
       title,
       content,
     });
@@ -57,7 +57,7 @@ export async function deleteArticle(req: Request, res: Response) {
   const { id } = req.params;
 
   try {
-    await ArticlesService.deleteArticle(parseInt(id, 10));
+    await ArticlesService.deleteArticle(id);
     res.status(200).json({ message: "Article deleted" });
   } catch (error) {
     console.error("Error deleting article (articles.controller):", error);
