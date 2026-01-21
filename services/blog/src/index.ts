@@ -15,38 +15,38 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // create article
-app.post("/v1/articles", async (req, res) => {
-  const { title, content, authorId } = req.body;
+// app.post("/v1/articles", async (req, res) => {
+//   const { title, content, authorId } = req.body;
 
-  if (!title || !content || !authorId) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+//   if (!title || !content || !authorId) {
+//     return res.status(400).json({ error: "Missing required fields" });
+//   }
 
-  try {
-    const article = await prisma.article.create({
-      data: {
-        title,
-        content,
-        authorId,
-      },
-    });
+//   try {
+//     const article = await prisma.article.create({
+//       data: {
+//         title,
+//         content,
+//         authorId,
+//       },
+//     });
 
-    res.status(201).json({
-      message: "Article created",
-      article: {
-        id: article.id,
-        title: article.title,
-        content: article.content,
-        authorId: article.authorId,
-        createdAt: article.createdAt,
-        updatedAt: article.updatedAt,
-      },
-    });
-  } catch (error) {
-    console.error("Error creating article:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+//     res.status(201).json({
+//       message: "Article created",
+//       article: {
+//         id: article.id,
+//         title: article.title,
+//         content: article.content,
+//         authorId: article.authorId,
+//         createdAt: article.createdAt,
+//         updatedAt: article.updatedAt,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error creating article:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 
 // // read articles
 // app.get("/v1/articles", async (req, res) => {
