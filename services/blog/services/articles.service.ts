@@ -17,3 +17,16 @@ export async function createArticle(data: {
 export async function getArticles() {
   return await prisma.article.findMany();
 }
+
+export async function updateArticle(
+  id: number,
+  data: { title?: string; content?: string },
+) {
+  return await prisma.article.update({
+    where: { id },
+    data: {
+      ...data,
+      updatedAt: new Date(),
+    },
+  });
+}

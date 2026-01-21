@@ -17,7 +17,7 @@ export async function createArticle(req: Request, res: Response) {
 
     res.status(201).json({ message: "Article created", article });
   } catch (error) {
-    console.error("Error creating article:", error);
+    console.error("Error creating article (articles.controller) :", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }

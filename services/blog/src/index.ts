@@ -60,36 +60,36 @@ app.use(express.json());
 // });
 
 // update article
-app.patch("/v1/articles/:id", async (req, res) => {
-  const { id } = req.params;
-  const { title, content } = req.body;
+// app.patch("/v1/articles/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const { title, content } = req.body;
 
-  try {
-    const article = await prisma.article.update({
-      where: { id: parseInt(id, 10) },
-      data: {
-        title,
-        content,
-        updatedAt: new Date(),
-      },
-    });
+//   try {
+//     const article = await prisma.article.update({
+//       where: { id: parseInt(id, 10) },
+//       data: {
+//         title,
+//         content,
+//         updatedAt: new Date(),
+//       },
+//     });
 
-    res.status(200).json({
-      message: "Article updated",
-      article: {
-        id: article.id,
-        title: article.title,
-        content: article.content,
-        authorId: article.authorId,
-        createdAt: article.createdAt,
-        updatedAt: article.updatedAt,
-      },
-    });
-  } catch (error) {
-    console.error("Error updating article:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
+//     res.status(200).json({
+//       message: "Article updated",
+//       article: {
+//         id: article.id,
+//         title: article.title,
+//         content: article.content,
+//         authorId: article.authorId,
+//         createdAt: article.createdAt,
+//         updatedAt: article.updatedAt,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error updating article:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 
 // delete article
 app.delete("/v1/articles/:id", async (req, res) => {
