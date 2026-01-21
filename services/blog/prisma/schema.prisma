@@ -19,6 +19,7 @@ model article {
 model comment {
   id          Int    @id @default(autoincrement())
   articleId   String
+  // articleId   Int @relation(fields: [articleId], references: [id])
   authorId    String
   content     String
   createdAt   DateTime  @default(now())

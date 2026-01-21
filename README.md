@@ -34,7 +34,7 @@ to generate types:
 
 ---
 
-### DB Stuff
+## DB Stuff
 
 connect to db from host:
 `psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
@@ -47,6 +47,14 @@ query all users:
 `SELECT * FROM users;` in psql console after connecting to db
 
 ---
+
+---
+
+## Blog Service
+
+.service creates the data object in db
+.controller handles http request via express
+.routes directs traffic from routes > controller > service
 
 Problems:
 
