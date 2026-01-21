@@ -19,7 +19,7 @@ export async function getArticles() {
 }
 
 export async function updateArticle(
-  id: number,
+  id: string,
   data: { title?: string; content?: string },
 ) {
   return await prisma.article.update({
@@ -31,7 +31,7 @@ export async function updateArticle(
   });
 }
 
-export async function deleteArticle(id: number) {
+export async function deleteArticle(id: string) {
   return await prisma.article.delete({
     where: { id },
   });
