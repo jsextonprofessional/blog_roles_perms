@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "jsexton",
+  "author": "Jacob Sexton",
   "license": "ISC",
   "packageManager": "pnpm@10.27.0",
   "dependencies": {
@@ -35,5 +35,6 @@
     "ts-node": "^10.9.2",
     "types": "^0.1.1",
     "typescript": "^5.9.3"
-  }
+  },
+  "type": "module"
 }

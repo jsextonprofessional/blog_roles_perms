@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as CommentsService from "../services/comments.service";
+import * as CommentsService from "../services/comments.service.js";
 
 export async function createComment(req: Request, res: Response) {
   const { articleId } = req.params;
