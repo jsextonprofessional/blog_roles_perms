@@ -3,8 +3,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import articlesRoutes from "../routes/articles.routes.js";
-import commentsRoutes from "../routes/comments.routes.js";
+import { articlesRoutes, commentsRoutes } from "../routes/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 4001;
