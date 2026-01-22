@@ -109,6 +109,7 @@ CONNECT EXISTING DATABASE:
   -- allow own users to delete comments
   -- allow own users to edit comments
   -- allow admins to delete blog posts and comments
+- use index files to simplify import, especially in controllers, routes, and services directories
 - update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - what is authn/script.ts doing?
 - add destructive actions/mutations abilities to frontend buttons.
