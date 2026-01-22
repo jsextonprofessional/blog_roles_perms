@@ -1,7 +1,6 @@
-// src/middleware/auth.middleware.ts
-import "../env";
+import "../src/env";
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 export interface AuthRequest extends Request {
   user?: {
@@ -13,9 +12,10 @@ export interface AuthRequest extends Request {
 export const authenticate = (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const JWT_SECRET = process.env.JWT_SECRET!;
+  console.log("Authenticating request...", JWT_SECRET);
 
   const authHeader = req.headers.authorization;
 
