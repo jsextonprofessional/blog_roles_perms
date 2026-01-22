@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as UsersService from "../services/users.service";
-import { authenticate, AuthRequest } from "../middleware/auth.middleware";
+import * as UsersService from "../services/users.service.js";
+import { AuthRequest } from "../middleware/auth.middleware.js";
 
 export async function registerUser(req: AuthRequest, res: Response) {
   const { firstName, lastName, email, password, role } = req.body;
@@ -102,23 +102,6 @@ export async function getCurrentUser(req: AuthRequest, res: Response) {
     lastName: user.lastName,
     role: user.role,
   });
-  // const userId = res.locals.userId;
-  // try {
-  //   const user = await UsersService.getUserById(userId);
-  //   if (!user) {
-  //     return res.status(404).json({ error: "User not found" });
-  //   }
-  //   res.status(200).json({
-  //     id: user.id,
-  //     email: user.email,
-  //     firstName: user.firstName,
-  //     lastName: user.lastName,
-  //     role: user.role,
-  //   });
-  // } catch (error) {
-  //   console.error("Error fetching current user (users.controller):", error);
-  //   res.status(500).json({ error: "Internal server error" });
-  // }
 }
 
 export async function getAdminOnly(req: Request, res: Response) {
