@@ -88,6 +88,7 @@ CONNECT EXISTING DATABASE:
 
 ### Where was I?
 
+- left off 260122 refactored authn service to match architecture of blog service. updated blog service to use index barrels. updated ts in blogs service to match strictness of authn ts. Updated imports and cleaned up types across blog and auth. Removed vestigial code. Manually tested authn imports. Began first steps of authz.
 - left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
 - left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
 - left off 260108 with most basic ui setup. posts and comments render with dummy data.
