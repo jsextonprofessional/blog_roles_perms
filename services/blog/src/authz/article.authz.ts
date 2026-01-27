@@ -1,7 +1,9 @@
 import { UserContext, OwnableResource } from "./types.js";
 
-export function canCreateArticle(_user: UserContext) {
-  return true;
+export function canCreateArticle(user: UserContext | null): boolean {
+  if (!user) return false;
+
+  return user.role === "USER" || user.role === "ADMIN";
 }
 
 export function canEditArticle(user: UserContext, article: OwnableResource) {
