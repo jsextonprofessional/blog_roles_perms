@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { CommentsService } from "../services/index.js";
 import { AuthenticatedRequest } from "../middleware/index.js";
-import { canCreateComment } from "../src/authz/comment.authz.js";
+import {
+  canCreateComment,
+  canDeleteComment,
+  canEditComment,
+} from "../src/authz/comment.authz.js";
 
 export async function createComment(req: AuthenticatedRequest, res: Response) {
   if (!req.user) {
@@ -9,7 +13,8 @@ export async function createComment(req: AuthenticatedRequest, res: Response) {
   }
 
   const { articleId } = req.params;
-  const { content, authorId } = req.body;
+  const { content } = req.body;
+  const authorId = req.user.id;
 
   if (!content || !authorId) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -47,27 +52,61 @@ export async function getCommentsByArticle(req: Request, res: Response) {
   }
 }
 
-export async function updateComment(req: Request, res: Response) {
+export async function updateComment(req: AuthenticatedRequest, res: Response) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthenticated" });
+  }
+
   const { id } = req.params;
   const { content } = req.body;
 
   try {
-    const comment = await CommentsService.updateComment(id, {
+    const comment = await CommentsService.getCommentById(id);
+
+    if (!comment) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    const allowed = canEditComment(req.user, comment);
+
+    if (!allowed) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
+    const updatedComment = await CommentsService.updateComment(id, {
       content,
     });
-    res.status(200).json({ message: "Comment updated", comment });
+    res
+      .status(200)
+      .json({ message: "Comment updated", comment: updatedComment });
   } catch (error) {
     console.error("Error updating comment (comments.controller):", error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
 
-export async function deleteComment(req: Request, res: Response) {
+export async function deleteComment(req: AuthenticatedRequest, res: Response) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthenticated" });
+  }
+
   const { id } = req.params;
 
   try {
+    const comment = await CommentsService.getCommentById(id);
+
+    if (!comment) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    const allowed = canDeleteComment(req.user, comment);
+
+    if (!allowed) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     await CommentsService.deleteComment(id);
-    res.status(200).json({ message: "Comment deleted" });
+    res.status(204).send();
   } catch (error) {
     console.error("Error deleting comment (comments.controller):", error);
     res.status(500).json({ error: "Internal server error" });
