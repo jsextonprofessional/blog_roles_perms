@@ -1,16 +1,27 @@
 import { Request, Response } from "express";
 import { ArticlesService } from "../services/index.js";
-import { canDeleteArticle } from "../src/authz/index.js";
+import { canCreateArticle, canDeleteArticle } from "../src/authz/index.js";
 import { AuthenticatedRequest } from "../middleware/index.js";
 
-export async function createArticle(req: Request, res: Response) {
-  const { title, content, authorId } = req.body;
+export async function createArticle(req: AuthenticatedRequest, res: Response) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthenticated" });
+  }
 
-  if (!title || !content || !authorId) {
+  const { title, content } = req.body;
+  const authorId = req.user.id;
+
+  if (!title || !content) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
+    const allowed = canCreateArticle(req.user);
+
+    if (!allowed) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     const article = await ArticlesService.createArticle({
       title,
       content,
