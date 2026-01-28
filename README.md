@@ -88,6 +88,7 @@ CONNECT EXISTING DATABASE:
 
 ### Where was I?
 
+- left off 260128 (hbd mom !69!). Adds authenticate middleware to blog. Consumes authenticate in blog routes. Enforces authz in articles controller. Wrote a lot of good documentation to test authz. Enforces authz on comment create.
 - left off 160127 added comments and articels tests into services/blog/src/authz/**tests**. installed vitest in blog service.
 - left off 260122 refactored authn service to match architecture of blog service. updated blog service to use index barrels. updated ts in blogs service to match strictness of authn ts. Updated imports and cleaned up types across blog and auth. Removed vestigial code. Manually tested authn imports. Began first steps of authz.
 - left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
@@ -102,7 +103,21 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
+----> enforce authz on comment edit and delete
+
+- wire authz into blog service controllers - enforce authz at service layer
+  -- inject user context into blog controllers
+  -- enforce authz in destructive routes
+- add integration tests (at request level)
+  -- proves authn works, authz is enforced, controllers are wired correctly
+- normalize error semantics
+  -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
+- introduce API gateway
+  -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
+  inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
 - create blog service
+- wire frontend
+  -- Frontend becomes easy when URLs are stable, auth flows are real, permissions are enforced server-side. SvelteKit can then optimistically render buttons, rely on 403 responses, and hide controls via role (UX only)
   -- ✅ setup db with blogs and comments entities
   -- allow users to submit blog posts
   -- allow users to comment on blog posts
@@ -111,7 +126,7 @@ CONNECT EXISTING DATABASE:
   -- allow users to delete their own comments
   -- allow users to edit their comments
   -- allow admins to delete blog posts and comments
-  -- write tests to prove users can't break perform destructive actions without correct role/per
+  -- write tests to prove users can't perform destructive actions without correct role/perm
 - build out functionality to demonstrate differences in authn and authz
 - add destructive actions/mutations abilities to frontend buttons.
 - create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.

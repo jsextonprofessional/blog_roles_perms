@@ -18,6 +18,12 @@ export async function getArticles() {
   return await prisma.article.findMany();
 }
 
+export async function getArticleById(id: string) {
+  return prisma.article.findUnique({
+    where: { id },
+  });
+}
+
 export async function updateArticle(
   id: string,
   data: { title?: string; content?: string },
