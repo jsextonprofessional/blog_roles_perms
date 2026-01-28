@@ -14,6 +14,12 @@ export async function createComment(data: {
   });
 }
 
+export async function getCommentById(id: string) {
+  return prisma.comment.findUnique({
+    where: { id },
+  });
+}
+
 export async function getCommentsByArticle(articleId: string) {
   return await prisma.comment.findMany({
     where: { articleId },

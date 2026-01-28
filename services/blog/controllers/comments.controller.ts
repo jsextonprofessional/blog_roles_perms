@@ -1,7 +1,13 @@
 import { Request, Response } from "express";
 import { CommentsService } from "../services/index.js";
+import { AuthenticatedRequest } from "../middleware/index.js";
+import { canCreateComment } from "../src/authz/comment.authz.js";
 
-export async function createComment(req: Request, res: Response) {
+export async function createComment(req: AuthenticatedRequest, res: Response) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthenticated" });
+  }
+
   const { articleId } = req.params;
   const { content, authorId } = req.body;
 
@@ -10,6 +16,12 @@ export async function createComment(req: Request, res: Response) {
   }
 
   try {
+    const allowed = canCreateComment(req.user);
+
+    if (!allowed) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     const comment = await CommentsService.createComment({
       articleId,
       content,
