@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { ArticlesService } from "../services/index.js";
+import { canDeleteArticle } from "../src/authz/index.js";
+import { AuthenticatedRequest } from "../middleware/index.js";
 
 export async function createArticle(req: Request, res: Response) {
   const { title, content, authorId } = req.body;
@@ -53,12 +55,29 @@ export async function updateArticle(req: Request, res: Response) {
   }
 }
 
-export async function deleteArticle(req: Request, res: Response) {
+export async function deleteArticle(req: AuthenticatedRequest, res: Response) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthenticated" });
+  }
+
   const { id } = req.params;
 
   try {
+    const article = await ArticlesService.getArticleById(id);
+
+    if (!article) {
+      return res.status(404).json({ error: "Article not found" });
+    }
+
+    const allowed = canDeleteArticle(req.user, article);
+
+    if (!allowed) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     await ArticlesService.deleteArticle(id);
-    res.status(200).json({ message: "Article deleted" });
+
+    res.status(204).send();
   } catch (error) {
     console.error("Error deleting article (articles.controller):", error);
     res
