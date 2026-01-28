@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { ArticlesService } from "../services/index.js";
-import { canCreateArticle, canDeleteArticle } from "../src/authz/index.js";
+import {
+  canCreateArticle,
+  canDeleteArticle,
+  canEditArticle,
+} from "../src/authz/index.js";
 import { AuthenticatedRequest } from "../middleware/index.js";
 
 export async function createArticle(req: AuthenticatedRequest, res: Response) {
@@ -47,17 +51,35 @@ export async function getArticles(req: Request, res: Response) {
   }
 }
 
-export async function updateArticle(req: Request, res: Response) {
+export async function updateArticle(req: AuthenticatedRequest, res: Response) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthenticated" });
+  }
+
   const { id } = req.params;
   const { title, content } = req.body;
 
   try {
-    const article = await ArticlesService.updateArticle(id, {
+    const article = await ArticlesService.getArticleById(id);
+
+    if (!article) {
+      return res.status(404).json({ error: "Article not found" });
+    }
+
+    const allowed = canEditArticle(req.user, article);
+
+    if (!allowed) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
+    const updatedArticle = await ArticlesService.updateArticle(id, {
       title,
       content,
     });
 
-    res.status(200).json({ message: "Article updated", article });
+    res
+      .status(200)
+      .json({ message: "Article updated", article: updatedArticle });
   } catch (error) {
     console.error("Error updating article (articles.controller):", error);
     res
