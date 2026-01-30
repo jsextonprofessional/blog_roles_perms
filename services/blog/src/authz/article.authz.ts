@@ -1,15 +1,22 @@
-import { UserContext, OwnableResource } from "./types.js";
+import { UserContext, OwnableResource, PolicyFn } from "./types.js";
 
-export function canCreateArticle(user: UserContext | null): boolean {
+export const canCreateArticle: PolicyFn = (user: UserContext | null) => {
   if (!user) return false;
-
   return user.role === "USER" || user.role === "ADMIN";
-}
+};
 
-export function canEditArticle(user: UserContext, article: OwnableResource) {
+export const canEditArticle: PolicyFn<OwnableResource> = (
+  user: UserContext | null,
+  article: OwnableResource,
+) => {
+  if (!user) return false;
   return article.authorId === user.id;
-}
+};
 
-export function canDeleteArticle(user: UserContext, article: OwnableResource) {
+export const canDeleteArticle: PolicyFn<OwnableResource> = (
+  user: UserContext | null,
+  article: OwnableResource,
+) => {
+  if (!user) return false;
   return article.authorId === user.id || user.role === "ADMIN";
-}
+};

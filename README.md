@@ -88,8 +88,9 @@ CONNECT EXISTING DATABASE:
 
 ### Where was I?
 
-- left off 260128 (hbd mom !69!). Adds authenticate middleware to blog. Consumes authenticate in blog routes. Enforces authz in articles controller. Wrote a lot of good documentation to test authz. Enforces authz on comment create.
-- left off 160127 added comments and articels tests into services/blog/src/authz/**tests**. installed vitest in blog service.
+- left off 260130 created policy matrix. developed types and fixtures. broke testing apart into matrices, test runner, and test files.
+- left off 260128 (hbd mom !69!). Adds authenticate middleware to blog. Consumes authenticate in blog routes. Enforces authz in articles controller. Wrote a lot of good documentation to test authz. Enforces authz on comment create, edit and delete.
+- left off 260127 added comments and articels tests into services/blog/src/authz/**tests**. installed vitest in blog service.
 - left off 260122 refactored authn service to match architecture of blog service. updated blog service to use index barrels. updated ts in blogs service to match strictness of authn ts. Updated imports and cleaned up types across blog and auth. Removed vestigial code. Manually tested authn imports. Began first steps of authz.
 - left off 260113 updated authn schema permissionLevel -> role. Handles registration and errors on frontend. Created blog service branch.
 - left off 260112 conditionally rendering edit and delete buttons based on poster id. auth.user info persisting bc addition of (browser) block in store.
@@ -103,11 +104,11 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
-----> enforce authz on comment edit and delete
-
-- wire authz into blog service controllers - enforce authz at service layer
-  -- inject user context into blog controllers
-  -- enforce authz in destructive routes
+- Add integration tests for 403/401
+- Add API gateway middleware using requirePermission
+- Add audit logging (one line!)
+- refactor runMatrixPolicyTests to be generic + type-safe
+- wire requirePermission() using these same policies
 - add integration tests (at request level)
   -- proves authn works, authz is enforced, controllers are wired correctly
 - normalize error semantics
@@ -115,21 +116,10 @@ CONNECT EXISTING DATABASE:
 - introduce API gateway
   -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
   inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
-- create blog service
 - wire frontend
   -- Frontend becomes easy when URLs are stable, auth flows are real, permissions are enforced server-side. SvelteKit can then optimistically render buttons, rely on 403 responses, and hide controls via role (UX only)
-  -- ✅ setup db with blogs and comments entities
-  -- allow users to submit blog posts
-  -- allow users to comment on blog posts
-  -- allow users to delete their own blog posts
-  -- allow users to edit their own blog posts
-  -- allow users to delete their own comments
-  -- allow users to edit their comments
-  -- allow admins to delete blog posts and comments
   -- write tests to prove users can't perform destructive actions without correct role/perm
-- build out functionality to demonstrate differences in authn and authz
 - add destructive actions/mutations abilities to frontend buttons.
-- create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
@@ -142,5 +132,20 @@ CONNECT EXISTING DATABASE:
 - ✅ create registration ui page
 - ✅ create registration + authn functionality
 - ✅ use index files to simplify import, especially in controllers, routes, and services directories
+- ✅ 260130 wire authz into blog service controllers - enforce authz at service layer
+  -- ✅ inject user context into blog controllers
+  -- ✅ enforce authz in destructive routes
+- ✅ 260130 build out functionality to demonstrate differences in authn and authz
+- ✅ create blog service
+- ✅ setup db with blogs and comments entities
+- ✅ allow users to submit blog posts
+- ✅ allow users to comment on blog posts
+- ✅ allow users to delete their own blog posts
+- ✅ allow users to edit their own blog posts
+- ✅ allow users to delete their own comments
+- ✅ allow users to edit their comments
+- ✅ allow admins to delete blog posts and comments
+- ✅ 260130 (Bob, Alice, admin) create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
+- ✅ 260130 enforce authz on comment edit and delete
 
 ---
