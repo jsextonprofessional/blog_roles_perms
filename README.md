@@ -104,6 +104,8 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
+- refactor runMatrixPolicyTests to be generic + type-safe
+- wire requirePermission() using these same policies
 - add integration tests (at request level)
   -- proves authn works, authz is enforced, controllers are wired correctly
 - normalize error semantics
