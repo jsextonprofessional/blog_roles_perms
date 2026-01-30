@@ -9,10 +9,10 @@ export type OwnableResource = {
 
 export type Actor = "owner" | "otherUser" | "admin" | "unauthenticated";
 
-export type Policy = "create" | "edit" | "delete";
+export type Action = "create" | "edit" | "delete";
 
-export type PolicyMatrix = {
-  [P in Policy]: {
-    [A in Actor]: boolean;
-  };
-};
+export type PolicyFn<TResource = void> = TResource extends void
+  ? (user: UserContext | null) => boolean
+  : (user: UserContext | null, resource: TResource) => boolean;
+
+export type PolicyMatrix = Record<Action, Record<Actor, boolean>>;
