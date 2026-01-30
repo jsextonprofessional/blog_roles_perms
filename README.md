@@ -104,11 +104,6 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
-----> enforce authz on comment edit and delete
-
-- wire authz into blog service controllers - enforce authz at service layer
-  -- inject user context into blog controllers
-  -- enforce authz in destructive routes
 - add integration tests (at request level)
   -- proves authn works, authz is enforced, controllers are wired correctly
 - normalize error semantics
@@ -116,21 +111,10 @@ CONNECT EXISTING DATABASE:
 - introduce API gateway
   -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
   inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
-- create blog service
 - wire frontend
   -- Frontend becomes easy when URLs are stable, auth flows are real, permissions are enforced server-side. SvelteKit can then optimistically render buttons, rely on 403 responses, and hide controls via role (UX only)
-  -- ✅ setup db with blogs and comments entities
-  -- allow users to submit blog posts
-  -- allow users to comment on blog posts
-  -- allow users to delete their own blog posts
-  -- allow users to edit their own blog posts
-  -- allow users to delete their own comments
-  -- allow users to edit their comments
-  -- allow admins to delete blog posts and comments
   -- write tests to prove users can't perform destructive actions without correct role/perm
-- build out functionality to demonstrate differences in authn and authz
 - add destructive actions/mutations abilities to frontend buttons.
-- create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
@@ -143,5 +127,20 @@ CONNECT EXISTING DATABASE:
 - ✅ create registration ui page
 - ✅ create registration + authn functionality
 - ✅ use index files to simplify import, especially in controllers, routes, and services directories
+- ✅ 260130 wire authz into blog service controllers - enforce authz at service layer
+  -- ✅ inject user context into blog controllers
+  -- ✅ enforce authz in destructive routes
+- ✅ 260130 build out functionality to demonstrate differences in authn and authz
+- ✅ create blog service
+- ✅ setup db with blogs and comments entities
+- ✅ allow users to submit blog posts
+- ✅ allow users to comment on blog posts
+- ✅ allow users to delete their own blog posts
+- ✅ allow users to edit their own blog posts
+- ✅ allow users to delete their own comments
+- ✅ allow users to edit their comments
+- ✅ allow admins to delete blog posts and comments
+- ✅ 260130 (Bob, Alice, admin) create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
+- ✅ 260130 enforce authz on comment edit and delete
 
 ---
