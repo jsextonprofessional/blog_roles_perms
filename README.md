@@ -104,6 +104,9 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
+- Add integration tests for 403/401
+- Add API gateway middleware using requirePermission
+- Add audit logging (one line!)
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
 - add integration tests (at request level)
