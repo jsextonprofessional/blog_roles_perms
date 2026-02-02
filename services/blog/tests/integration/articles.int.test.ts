@@ -2,20 +2,19 @@ import { describe, it, expect, beforeAll } from "vitest";
 import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
+import { alice, bob, admin } from "./fixtures.js";
 
 const app = createApp();
 
-const alice = { id: "alice-id", role: "USER" as const };
-const bob = { id: "bob-id", role: "USER" as const };
-const admin = { id: "admin-id", role: "ADMIN" as const };
-const aliceToken = generateTestToken(alice);
-const bobToken = generateTestToken(bob);
-const adminToken = generateTestToken(admin);
-
 describe("Articles integration authz", () => {
+  const aliceToken = generateTestToken(alice);
+  const bobToken = generateTestToken(bob);
+  const adminToken = generateTestToken(admin);
+
   let articleOneId: string;
   let articleTwoId: string;
 
+  // can beforeAll be an imported helper? is this bad practice?
   beforeAll(async () => {
     // Alice creates two articles
     const responseOne = await request(app)
