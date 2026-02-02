@@ -11,6 +11,7 @@ router.post(
 );
 router.get(
   "/articles/:articleId/comments",
+  authenticate,
   CommentsController.getCommentsByArticle,
 );
 router.patch("/comments/:id", authenticate, CommentsController.updateComment);
