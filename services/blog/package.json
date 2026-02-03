@@ -33,6 +33,8 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.0.8",
     "@types/pg": "^8.16.0",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "types": "^0.1.1",
     "typescript": "^5.9.3",

@@ -105,6 +105,7 @@ CONNECT EXISTING DATABASE:
 ### To do:
 
 - Add integration tests for 403/401
+- add integration tests as pre merge hook in ci/cd
 - Add API gateway middleware using requirePermission
 - Add audit logging (one line!)
 - refactor runMatrixPolicyTests to be generic + type-safe
