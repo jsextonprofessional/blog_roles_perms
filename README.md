@@ -129,8 +129,7 @@ CONNECT EXISTING DATABASE:
 - Add audit logging (one line!)
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
-- add integration tests (at request level)
-  -- proves authn works, authz is enforced, controllers are wired correctly
+
 - normalize error semantics
   -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
 - introduce API gateway
@@ -167,5 +166,7 @@ CONNECT EXISTING DATABASE:
 - ✅ allow admins to delete blog posts and comments
 - ✅ 260130 (Bob, Alice, admin) create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - ✅ 260130 enforce authz on comment edit and delete
+  ✅- add integration tests (at request level)
+  -- proves authn works, authz is enforced, controllers are wired correctly
 
 ---
