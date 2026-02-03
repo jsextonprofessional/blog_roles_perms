@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
-import { alice, bob, admin } from "./fixtures.js";
+import { alice, bob, admin } from "../fixtures.js";
 import { createArticle } from "./setup/articles.js";
 
 const app = createApp();
