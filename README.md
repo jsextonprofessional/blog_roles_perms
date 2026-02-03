@@ -52,6 +52,20 @@ WHERE "createdAt" > '2026-02-01 00:00:00';`
 
 ---
 
+## Run tests
+
+# Run all tests
+
+pnpm test or pnpm vitest in services/blog
+
+# Run only authz (unit) tests
+
+pnpm vitest run src/authz/**tests**/
+
+# Run only integration tests
+
+pnpm vitest run tests/integration/
+
 ---
 
 ## Blog Service
