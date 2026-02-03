@@ -36,17 +36,35 @@ to generate types:
 
 ## DB Stuff
 
-connect to db from host:
-`psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
-local pw is usually `password`
+> connect to db from host:
+> `psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
+> local pw is usually `password`
 
-show all tables in db:
-`\dt` in psql console after connecting to db
+> show all tables in db:
+> `\dt` in psql console after connecting to db
 
-query all users:
-`SELECT * FROM users;` in psql console after connecting to db
+> query all users:
+> `SELECT * FROM users;` in psql console after connecting to db
+
+> cleanup junk data after running tests
+> `DELETE FROM "Article"
+WHERE "createdAt" > '2026-02-01 00:00:00';`
 
 ---
+
+## Run tests
+
+# Run all tests
+
+pnpm test or pnpm vitest in services/blog
+
+# Run only authz (unit) tests
+
+pnpm vitest run src/authz/**tests**/
+
+# Run only integration tests
+
+pnpm vitest run tests/integration/
 
 ---
 
@@ -88,6 +106,7 @@ CONNECT EXISTING DATABASE:
 
 ### Where was I?
 
+- left off 260203 added integration tests for route accessing and permissions behaviors. Adds test db via docker. Test data is deleted after testing.
 - left off 260130 created policy matrix. developed types and fixtures. broke testing apart into matrices, test runner, and test files.
 - left off 260128 (hbd mom !69!). Adds authenticate middleware to blog. Consumes authenticate in blog routes. Enforces authz in articles controller. Wrote a lot of good documentation to test authz. Enforces authz on comment create, edit and delete.
 - left off 260127 added comments and articels tests into services/blog/src/authz/**tests**. installed vitest in blog service.
@@ -110,8 +129,7 @@ CONNECT EXISTING DATABASE:
 - Add audit logging (one line!)
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
-- add integration tests (at request level)
-  -- proves authn works, authz is enforced, controllers are wired correctly
+
 - normalize error semantics
   -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
 - introduce API gateway
@@ -148,5 +166,7 @@ CONNECT EXISTING DATABASE:
 - ✅ allow admins to delete blog posts and comments
 - ✅ 260130 (Bob, Alice, admin) create dummy users - probably not doing this bc of how login sessions are set up. not interested in deconstructing this to use dummy data. maybe good exercise to understand authn deeply. idk yet.
 - ✅ 260130 enforce authz on comment edit and delete
+  ✅- add integration tests (at request level)
+  -- proves authn works, authz is enforced, controllers are wired correctly
 
 ---

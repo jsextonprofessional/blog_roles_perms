@@ -2,8 +2,8 @@ import { describe, it, expect, beforeAll } from "vitest";
 import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
-import { alice, bob, admin } from "./fixtures.js";
-import { createArticle } from "./setup/articles.js";
+import { alice, bob, admin } from "../fixtures.js";
+import { createArticle } from "./setup/index.js";
 
 const app = createApp();
 
@@ -46,6 +46,10 @@ describe("Articles integration authz", () => {
     expect(response.status).toBe(201);
     expect(response.body.article).toHaveProperty("id");
     expect(response.body.article.title).toBe("Bob's First Article");
+
+    await request(app)
+      .delete(`/v1/articles/${response.body.article.id}`)
+      .set("Authorization", `Bearer ${bobToken}`);
   });
 
   it("prevents unauthenticated users from creating articles", async () => {
