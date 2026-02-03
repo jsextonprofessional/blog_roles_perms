@@ -3,7 +3,7 @@ import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
 import { alice, bob, admin } from "../fixtures.js";
-import { createArticle } from "./setup/articles.js";
+import { createArticle } from "./setup/index.js";
 
 const app = createApp();
 
