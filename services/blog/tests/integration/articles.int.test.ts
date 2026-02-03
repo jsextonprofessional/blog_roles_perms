@@ -15,7 +15,6 @@ describe("Articles integration authz", () => {
   let articleOneId: string;
   let articleTwoId: string;
 
-  // can beforeAll be an imported helper? is this bad practice?
   beforeAll(async () => {
     const articleResponseOne = await createArticle(app, aliceToken, {
       title: "Alice's Article",
