@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
@@ -150,5 +150,11 @@ describe("Comments integration authz", () => {
     const response = await request(app).delete(`/v1/comments/${commentOneId}`);
 
     expect(response.status).toBe(401);
+  });
+
+  afterAll(async () => {
+    await request(app)
+      .delete(`/v1/articles/${articleId}`)
+      .set("Authorization", `Bearer ${aliceToken}`);
   });
 });

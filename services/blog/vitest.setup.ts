@@ -1,7 +1,7 @@
-import { afterEach, afterAll } from "vitest";
+import { afterAll } from "vitest";
 import { truncateAllTables, testPrisma } from "../blog/src/db/index.js";
 
-afterEach(async () => {
+afterAll(async () => {
   await truncateAllTables();
 });
 
