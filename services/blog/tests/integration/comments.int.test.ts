@@ -3,6 +3,9 @@ import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
 import { alice, bob, admin } from "./fixtures.js";
+import { createArticle } from "./setup/articles.js";
+import { create } from "domain";
+import { createCommentForArticle } from "./setup/comment.js";
 
 const app = createApp();
 
@@ -16,33 +19,25 @@ describe("Comments integration authz", () => {
   let commentTwoId: string;
 
   beforeAll(async () => {
-    const articleResponse = await request(app)
-      .post("/v1/articles")
-      .set("Authorization", `Bearer ${aliceToken}`)
-      .send({
-        title: "Alice's Article",
-        content: "Thoughts and musings",
-      });
+    const articleResponse = await createArticle(app, aliceToken, {
+      title: "Article for Comments",
+      content: "Content to comment on",
+    });
 
     articleId = articleResponse.body.article.id;
 
-    const commentResponseOne = await request(app)
-      .post(`/v1/articles/${articleId}/comments`)
-      .set("Authorization", `Bearer ${bobToken}`)
-      .send({
-        content: "Great article, Alice!",
-      });
+    commentOneId = (
+      await createCommentForArticle(app, articleId, bobToken, "Bob's comment")
+    ).body.comment.id;
 
-    commentOneId = commentResponseOne.body.comment.id;
-
-    const commentResponseTwo = await request(app)
-      .post(`/v1/articles/${articleId}/comments`)
-      .set("Authorization", `Bearer ${aliceToken}`)
-      .send({
-        content: "@bob thx for the comment",
-      });
-
-    commentTwoId = commentResponseTwo.body.comment.id;
+    commentTwoId = (
+      await createCommentForArticle(
+        app,
+        articleId,
+        aliceToken,
+        "Alice's comment",
+      )
+    ).body.comment.id;
   });
 
   it("allows authenticated users to view comments", async () => {
@@ -62,12 +57,12 @@ describe("Comments integration authz", () => {
     expect(response.status).toBe(401);
   });
   it("allows authenticated users to post comments", async () => {
-    const response = await request(app)
-      .post(`/v1/articles/${articleId}/comments`)
-      .set("Authorization", `Bearer ${bobToken}`)
-      .send({
-        content: "Another comment from Bob",
-      });
+    const response = await createCommentForArticle(
+      app,
+      articleId,
+      bobToken,
+      "Another comment from Bob",
+    );
 
     expect(response.status).toBe(201);
     expect(response.body.comment).toHaveProperty("id");
@@ -75,11 +70,12 @@ describe("Comments integration authz", () => {
   });
 
   it("prevents unauthenticated users from posting comments", async () => {
-    const response = await request(app)
-      .post(`/v1/articles/${articleId}/comments`)
-      .send({
-        content: "I should not be able to post this",
-      });
+    const response = await createCommentForArticle(
+      app,
+      articleId,
+      "",
+      "Anonymous comment",
+    );
 
     expect(response.status).toBe(401);
   });

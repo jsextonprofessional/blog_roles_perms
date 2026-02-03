@@ -3,6 +3,7 @@ import request from "supertest";
 import { createApp } from "../../src/app.js";
 import { generateTestToken } from "./helpers.js";
 import { alice, bob, admin } from "./fixtures.js";
+import { createArticle } from "./setup/articles.js";
 
 const app = createApp();
 
@@ -16,26 +17,19 @@ describe("Articles integration authz", () => {
 
   // can beforeAll be an imported helper? is this bad practice?
   beforeAll(async () => {
-    // Alice creates two articles
-    const responseOne = await request(app)
-      .post("/v1/articles")
-      .set("Authorization", `Bearer ${aliceToken}`)
-      .send({
-        title: "Alice Article",
-        content: "Secret thoughts + musings",
-      });
+    const articleResponseOne = await createArticle(app, aliceToken, {
+      title: "Alice's Article",
+      content: "Content by Alice",
+    });
 
-    articleOneId = responseOne.body.article.id;
+    articleOneId = articleResponseOne.body.article.id;
 
-    const responseTwo = await request(app)
-      .post("/v1/articles")
-      .set("Authorization", `Bearer ${aliceToken}`)
-      .send({
-        title: "Another Alice Article",
-        content: "More secret thoughts",
-      });
+    const articleResponseTwo = await createArticle(app, bobToken, {
+      title: "Bob's Article",
+      content: "Content by Bob",
+    });
 
-    articleTwoId = responseTwo.body.article.id;
+    articleTwoId = articleResponseTwo.body.article.id;
   });
 
   it("allows anyone to view articles", async () => {
@@ -45,13 +39,10 @@ describe("Articles integration authz", () => {
   });
 
   it("allows authenticated users to create articles", async () => {
-    const response = await request(app)
-      .post("/v1/articles")
-      .set("Authorization", `Bearer ${bobToken}`)
-      .send({
-        title: "Bob's First Article",
-        content: "Hello world!",
-      });
+    const response = await createArticle(app, bobToken, {
+      title: "Bob's First Article",
+      content: "Hello world!",
+    });
 
     expect(response.status).toBe(201);
     expect(response.body.article).toHaveProperty("id");
@@ -59,7 +50,7 @@ describe("Articles integration authz", () => {
   });
 
   it("prevents unauthenticated users from creating articles", async () => {
-    const response = await request(app).post("/v1/articles").send({
+    const response = await createArticle(app, "", {
       title: "Anonymous Article",
       content: "Should not be created",
     });
