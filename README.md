@@ -36,15 +36,19 @@ to generate types:
 
 ## DB Stuff
 
-connect to db from host:
-`psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
-local pw is usually `password`
+> connect to db from host:
+> `psql -h localhost -p 5432 -U postgres -d users` or `psql -h localhost -p 5432 -U postgres -d blogs`
+> local pw is usually `password`
 
-show all tables in db:
-`\dt` in psql console after connecting to db
+> show all tables in db:
+> `\dt` in psql console after connecting to db
 
-query all users:
-`SELECT * FROM users;` in psql console after connecting to db
+> query all users:
+> `SELECT * FROM users;` in psql console after connecting to db
+
+> cleanup junk data after running tests
+> `DELETE FROM "Article"
+WHERE "createdAt" > '2026-02-01 00:00:00';`
 
 ---
 
