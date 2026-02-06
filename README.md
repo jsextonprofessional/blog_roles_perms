@@ -129,12 +129,13 @@ CONNECT EXISTING DATABASE:
 - Add audit logging (one line!)
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
-
+- Refactor type references to use canonical shared types
 - normalize error semantics
   -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
 - introduce API gateway
   -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
   inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
+- refactor authn to use separate app and index files
 - wire frontend
   -- Frontend becomes easy when URLs are stable, auth flows are real, permissions are enforced server-side. SvelteKit can then optimistically render buttons, rely on 403 responses, and hide controls via role (UX only)
   -- write tests to prove users can't perform destructive actions without correct role/perm

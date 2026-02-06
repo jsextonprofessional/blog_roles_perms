@@ -1,22 +1,24 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { config } from "../config.js";
+import { AuthenticatedUser } from "../../../shared/auth.js";
 
-export type GatewayRequest = Request & { user?: { id: string; role: string } };
-
-export function authMiddleware(
-  req: GatewayRequest,
+export function authnMiddleware(
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  const authHeader = req.headers["authorization"];
-  if (!authHeader) return res.status(401).json({ error: "No token provided" });
+  const header = req.headers.authorization;
 
-  const token = authHeader.replace("Bearer ", "");
+  if (!header) {
+    req.user = null;
+    return next();
+  }
+
+  const token = header.replace("Bearer ", "");
+
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
-      id: string;
-      role: string;
-    };
+    const payload = jwt.verify(token, config.jwtSecret) as AuthenticatedUser;
     req.user = payload;
     next();
   } catch {
