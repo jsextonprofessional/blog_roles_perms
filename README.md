@@ -1,36 +1,169 @@
-A blog app written in SvelteKit, NodeJS, Express, Prisma.
+# Blog Roles & Permissions - Microservices Architecture
 
-🎯 The goal is to demonstrate proficiency in API Gateways + Microservices, Authentication + Authorization (roles and permissions)
+A blog app demonstrating API Gateways, Microservices, Authentication, and Authorization (roles and permissions).
 
-App allows CRUD of blog posts and comments. There are four levels of users -
-1 guest - !authenticated
-2 user
-3 author - derived by matching user.id to postId or commentId
-4 admin
-each with elevating privilege of access and features.
+Built with SvelteKit, Node.js, Express, Prisma, and TypeScript.
 
----
+## 🏗️ Architecture
 
-to run docker:
-`docker desktop start` and `docker compose up` in root of blog_roles_perms
+```
+┌─────────────┐
+│   Client    │
+│  (SvelteKit)│
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────────────────────────┐
+│         API Gateway (Port 3000)     │
+│  - Authentication (JWT)             │
+│  - Rate Limiting                    │
+│  - Audit Logging                    │
+│  - Request Routing                  │
+└──────┬──────────────────────┬───────┘
+       │                      │
+       ▼                      ▼
+┌──────────────┐      ┌──────────────┐
+│ Auth Service │      │ Blog Service │
+│  (Port 4000) │      │  (Port 4001) │
+│              │      │              │
+│  - Register  │      │  - Articles  │
+│  - Login     │      │  - Comments  │
+│  - JWT       │      │  - AuthZ     │
+└──────┬───────┘      └──────┬───────┘
+       │                     │
+       ▼                     ▼
+  ┌─────────┐          ┌─────────┐
+  │ Users DB│          │ Blogs DB│
+  │  :5432  │          │  :5433  │
+  └─────────┘          └─────────┘
+```
 
-should see "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
+## 🎯 Goals
 
-to run authn:
+Demonstrate proficiency in:
 
-`pnpm dev` in services/authn
+- **API Gateway Pattern**: Single entry point with centralized middleware
+- **Microservices**: Decoupled auth and blog services
+- **Authentication**: JWT-based token authentication
+- **Authorization**: Role-based access control (RBAC)
 
-to run frontend:
+## 👥 User Roles & Permissions
 
-`pnpm run dev --open` in blog_roles_perms/frontend
+The app supports four privilege levels:
 
-to run migrations:
+1. **Guest** (!authenticated) - Read-only access
+2. **User** - Create articles and comments
+3. **Author** - Edit/delete own content (user.id matches resource owner)
+4. **Admin** - Full access to all resources
 
-`pnpm prisma migrate dev` in services/authn
+## 🚀 Quick Start
 
-to generate types:
+### Prerequisites
 
-`rm -rf generated` in services/authn, then `pnpm prisma generate`
+- Node.js 18+
+- pnpm 10+
+- Docker Desktop
+- PostgreSQL (via Docker)
+
+### 1. Start Databases
+
+```bash
+docker compose up
+```
+
+Should see: "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
+
+### 2. Setup Auth Service
+
+```bash
+cd services/authn
+pnpm install
+pnpm prisma migrate dev
+pnpm prisma generate
+pnpm dev  # Runs on port 4000
+```
+
+### 3. Setup Blog Service
+
+```bash
+cd services/blog
+pnpm install
+pnpm prisma migrate dev
+pnpm prisma generate
+pnpm dev  # Runs on port 4001
+```
+
+### 4. Setup API Gateway
+
+```bash
+cd gateway
+pnpm install
+cp .env.example .env
+# Edit .env with your JWT_SECRET
+pnpm dev  # Runs on port 3000
+```
+
+### 5. Setup Frontend
+
+```bash
+cd frontend
+pnpm install
+pnpm dev --open  # Opens browser
+```
+
+## 📁 Project Structure
+
+```
+blog_roles_perms/
+├── gateway/              # API Gateway (Express)
+│   ├── src/
+│   │   ├── middleware/  # Auth, rate limit, audit, etc.
+│   │   └── proxy/       # Service proxies
+│   └── README.md
+├── services/
+│   ├── authn/           # Authentication service
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── prisma/
+│   └── blog/            # Blog service
+│       ├── controllers/
+│       ├── routes/
+│       ├── services/
+│       ├── src/authz/   # Authorization logic
+│       └── prisma/
+├── frontend/            # SvelteKit frontend
+│   └── src/
+├── shared/              # Shared types
+└── docker-compose.yml   # PostgreSQL databases
+```
+
+## 🔑 API Gateway Routes
+
+### Authentication (`/v1/auth`)
+
+- `POST /v1/auth/register` - Register new user
+- `POST /v1/auth/login` - Login (returns JWT)
+- `GET /v1/auth/me` - Get current user
+- `GET /v1/auth/admin-only` - Admin endpoint
+
+### Blog (`/v1`)
+
+All require `Authorization: Bearer <token>` header
+
+#### Articles
+
+- `POST /v1/articles` - Create article
+- `GET /v1/articles` - List articles
+- `PATCH /v1/articles/:id` - Update article
+- `DELETE /v1/articles/:id` - Delete article
+
+#### Comments
+
+- `POST /v1/articles/:articleId/comments` - Create comment
+- `GET /v1/articles/:articleId/comments` - List comments
+- `PATCH /v1/comments/:id` - Update comment
+- `DELETE /v1/comments/:id` - Delete comment
 
 ---
 
