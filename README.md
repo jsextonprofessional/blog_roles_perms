@@ -91,7 +91,7 @@ pnpm prisma migrate dev
 pnpm prisma generate
 cd ../..
 
-# Blog Service  
+# Blog Service
 cd services/blog
 cp .env.example .env
 pnpm prisma migrate dev
@@ -207,6 +207,7 @@ All require `Authorization: Bearer <token>` header
 ## 🚦 CI/CD
 
 All pull requests require tests to pass before merging:
+
 - ✅ 73 tests must pass (Gateway, Authn, Blog)
 - ✅ Automated via GitHub Actions
 - ✅ Test databases isolated from dev/prod
