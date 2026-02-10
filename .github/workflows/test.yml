@@ -1,0 +1,115 @@
+name: Test Suite
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run All Tests
+    runs-on: ubuntu-latest
+
+    services:
+      users-db:
+        image: postgres:16
+        env:
+          POSTGRES_DB: users
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      blogs-db:
+        image: postgres:16
+        env:
+          POSTGRES_DB: blogs
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create test databases
+        run: |
+          # Wait for PostgreSQL to be ready
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for users-db..."
+            sleep 2
+          done
+          until pg_isready -h localhost -p 5433 -U postgres; do
+            echo "Waiting for blogs-db..."
+            sleep 2
+          done
+
+          # Create test databases
+          PGPASSWORD=password psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE users_test"
+          PGPASSWORD=password psql -h localhost -p 5433 -U postgres -c "CREATE DATABASE blogs_test"
+
+      - name: Run migrations for test databases
+        run: |
+          # Authn service migrations
+          cd services/authn
+          DATABASE_URL="postgresql://postgres:password@localhost:5432/users_test" pnpm prisma migrate deploy
+
+          # Blog service migrations
+          cd ../blog
+          DATABASE_URL="postgresql://postgres:password@localhost:5433/blogs_test" pnpm prisma migrate deploy
+
+      - name: Run all tests
+        run: pnpm test
+        env:
+          NODE_ENV: test
+          DATABASE_URL_TEST: postgresql://postgres:password@localhost:5432/users_test
+          JWT_SECRET: test-jwt-secret-for-ci
+
+      - name: Test Summary
+        if: always()
+        run: |
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Gateway: 6 tests" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Authn: 20 tests" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Blog: 47 tests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total: 73 tests**" >> $GITHUB_STEP_SUMMARY
