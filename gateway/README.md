@@ -9,6 +9,7 @@ Client → Gateway → [Auth Service, Blog Service]
 ```
 
 The gateway implements:
+
 - **Authentication**: JWT token verification
 - **Rate Limiting**: Prevents abuse (100 requests per minute per IP)
 - **Audit Logging**: Tracks all requests with user context
@@ -18,51 +19,61 @@ The gateway implements:
 ## Routes
 
 ### Authentication Routes (`/v1/auth`)
+
 - `POST /v1/auth/register` - Register a new user
 - `POST /v1/auth/login` - Login and receive JWT token
 - `GET /v1/auth/me` - Get current user info (requires auth)
 - `GET /v1/auth/admin-only` - Admin-only endpoint (requires auth + ADMIN role)
 
 ### Blog Routes (`/v1`)
+
 All blog routes require authentication via JWT token in the `Authorization` header.
 
 #### Articles
+
 - `POST /v1/articles` - Create a new article
 - `GET /v1/articles` - Get all articles
 - `PATCH /v1/articles/:id` - Update an article
 - `DELETE /v1/articles/:id` - Delete an article
 
 #### Comments
+
 - `POST /v1/articles/:articleId/comments` - Create a comment on an article
 - `GET /v1/articles/:articleId/comments` - Get all comments for an article
 - `PATCH /v1/comments/:id` - Update a comment
 - `DELETE /v1/comments/:id` - Delete a comment
 
 ### Health Check
+
 - `GET /health` - Returns gateway status
 
 ## Middleware
 
 ### 1. Rate Limiting (`rateLimitMiddleware`)
+
 - Window: 60 seconds
 - Max requests: 100 per IP
 - Applied globally to all routes
 
 ### 2. Audit Logging (`auditMiddleware`)
+
 - Logs every request with method, path, user ID, role, and timestamp
 - Uses Pino logger for structured logging
 
 ### 3. Authentication (`authnMiddleware`)
+
 - Verifies JWT tokens from `Authorization: Bearer <token>` header
 - Extracts user information and attaches to `req.user`
 - Optional authentication (continues if no token provided)
 - Returns 401 for invalid tokens
 
 ### 4. Context Middleware (`contextMiddleware`)
+
 - Passes user context to downstream services
 - Adds `x-user-context` header with serialized user info
 
 ### 5. Error Handling (`errorMiddleware`)
+
 - Catches and logs all errors
 - Returns standardized error responses
 
@@ -83,21 +94,25 @@ AUTHN_SERVICE_URL=http://localhost:4000      # Auth service URL
 ## Development
 
 ### Install Dependencies
+
 ```bash
 pnpm install
 ```
 
 ### Run in Development Mode
+
 ```bash
 pnpm dev
 ```
 
 ### Build for Production
+
 ```bash
 pnpm build
 ```
 
 ### Run Tests
+
 ```bash
 pnpm test
 ```
@@ -105,6 +120,7 @@ pnpm test
 ## Usage Examples
 
 ### Register a User
+
 ```bash
 curl -X POST http://localhost:3000/v1/auth/register \
   -H "Content-Type: application/json" \
@@ -112,6 +128,7 @@ curl -X POST http://localhost:3000/v1/auth/register \
 ```
 
 ### Login
+
 ```bash
 curl -X POST http://localhost:3000/v1/auth/login \
   -H "Content-Type: application/json" \
@@ -119,6 +136,7 @@ curl -X POST http://localhost:3000/v1/auth/login \
 ```
 
 Response:
+
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -131,6 +149,7 @@ Response:
 ```
 
 ### Create an Article (Authenticated)
+
 ```bash
 curl -X POST http://localhost:3000/v1/articles \
   -H "Content-Type: application/json" \
@@ -139,6 +158,7 @@ curl -X POST http://localhost:3000/v1/articles \
 ```
 
 ### Get All Articles (Authenticated)
+
 ```bash
 curl http://localhost:3000/v1/articles \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
