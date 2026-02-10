@@ -40,7 +40,7 @@ describe("Gateway Authentication Integration Tests", () => {
         id: "test-user-id",
         role: "USER",
       };
-      
+
       validToken = jwt.sign(user, testSecret, { expiresIn: "1h" });
       invalidToken = jwt.sign(user, "wrong-secret", { expiresIn: "1h" });
     });
