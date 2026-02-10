@@ -256,19 +256,17 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
-- Add integration tests for 403/401
+- add authn integration tests
 - add integration tests as pre merge hook in ci/cd
+- refactor authn to use separate app and index files
+- Add integration tests for 403/401
+- add root level pnpm test all capability
 - Add API gateway middleware using requirePermission
-- Add audit logging (one line!)
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
 - Refactor type references to use canonical shared types
 - normalize error semantics
   -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
-- introduce API gateway
-  -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
-  inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
-- refactor authn to use separate app and index files
 - wire frontend
   -- Frontend becomes easy when URLs are stable, auth flows are real, permissions are enforced server-side. SvelteKit can then optimistically render buttons, rely on 403 responses, and hide controls via role (UX only)
   -- write tests to prove users can't perform destructive actions without correct role/perm
@@ -302,5 +300,9 @@ CONNECT EXISTING DATABASE:
 - ✅ 260130 enforce authz on comment edit and delete
   ✅- add integration tests (at request level)
   -- proves authn works, authz is enforced, controllers are wired correctly
+- ✅ Add audit logging (one line!)
+- ✅ introduce API gateway
+  -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
+  inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
 
 ---
