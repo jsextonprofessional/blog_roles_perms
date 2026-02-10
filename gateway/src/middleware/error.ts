@@ -7,7 +7,7 @@ export function errorMiddleware(
   _next: NextFunction,
 ) {
   console.error("Gateway error:", err);
-  
+
   res.status(500).json({
     error: "Internal server error",
     message: err.message,
