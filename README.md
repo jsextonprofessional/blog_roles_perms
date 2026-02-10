@@ -1,5 +1,7 @@
 # Blog Roles & Permissions - Microservices Architecture
 
+![Test Suite](https://github.com/jsextonprofessional/blog_roles_perms/actions/workflows/test.yml/badge.svg)
+
 A blog app demonstrating API Gateways, Microservices, Authentication, and Authorization (roles and permissions).
 
 Built with SvelteKit, Node.js, Express, Prisma, and TypeScript.
@@ -65,51 +67,88 @@ The app supports four privilege levels:
 - Docker Desktop
 - PostgreSQL (via Docker)
 
-### 1. Start Databases
+### 1. Clone and Install
 
 ```bash
-docker compose up
+git clone <your-repo>
+cd blog_roles_perms
+pnpm install
 ```
 
-Should see: "Starting Docker Desktop", "Attaching to blogs-db-1, users-db-1..."
-
-### 2. Setup Auth Service
+### 2. Start Databases
 
 ```bash
+docker compose up -d  # Starts PostgreSQL DBs on ports 5432, 5433
+```
+
+### 3. Setup Services
+
+```bash
+# Auth Service
 cd services/authn
-pnpm install
-pnpm prisma migrate dev
-pnpm prisma generate
-pnpm dev  # Runs on port 4000
-```
-
-### 3. Setup Blog Service
-
-```bash
-cd services/blog
-pnpm install
-pnpm prisma migrate dev
-pnpm prisma generate
-pnpm dev  # Runs on port 4001
-```
-
-### 4. Setup API Gateway
-
-```bash
-cd gateway
-pnpm install
 cp .env.example .env
-# Edit .env with your JWT_SECRET
-pnpm dev  # Runs on port 3000
+pnpm prisma migrate dev
+pnpm prisma generate
+cd ../..
+
+# Blog Service  
+cd services/blog
+cp .env.example .env
+pnpm prisma migrate dev
+pnpm prisma generate
+cd ../..
+
+# Gateway
+cd gateway
+cp .env.example .env
+cd ..
 ```
 
-### 5. Setup Frontend
+### 4. Run All Services
 
 ```bash
-cd frontend
-pnpm install
-pnpm dev --open  # Opens browser
+# From root directory
+pnpm dev  # Starts gateway (3000), authn (4000), blog (4001), frontend
 ```
+
+### 5. Run Tests
+
+```bash
+# Run all tests across monorepo (73 tests total)
+pnpm test
+
+# Test breakdown:
+# - Gateway: 6 tests (auth, rate limiting, audit)
+# - Authn: 20 tests (registration, login, JWT, RBAC)
+# - Blog: 47 tests (24 authz unit tests + 23 integration tests)
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Build all packages
+pnpm build
+```
+
+**Note**: All tests use dedicated test databases (`users_test`, `blogs_test`) to ensure complete isolation from dev/prod data. See [TESTING.md](TESTING.md) for details.
+
+## 🧪 Testing
+
+All services include comprehensive integration tests that run against dedicated test databases:
+
+- **Gateway**: 6 tests (authentication, rate limiting, audit logging)
+- **Authn Service**: 20 tests (registration, login, JWT, RBAC)
+- **Blog Service**: 47 tests (authorization policies, CRUD operations)
+- **Total**: 73 tests
+
+```bash
+# Run all tests
+pnpm test
+
+# Test in watch mode
+pnpm test:watch
+```
+
+**Database Isolation**: Tests use separate `users_test` and `blogs_test` databases to ensure complete isolation from development and production data. See [TESTING.md](TESTING.md) for details.
 
 ## 📁 Project Structure
 
@@ -164,6 +203,24 @@ All require `Authorization: Bearer <token>` header
 - `GET /v1/articles/:articleId/comments` - List comments
 - `PATCH /v1/comments/:id` - Update comment
 - `DELETE /v1/comments/:id` - Delete comment
+
+## 🚦 CI/CD
+
+All pull requests require tests to pass before merging:
+- ✅ 73 tests must pass (Gateway, Authn, Blog)
+- ✅ Automated via GitHub Actions
+- ✅ Test databases isolated from dev/prod
+
+See [CI_CD.md](CI_CD.md) for workflow details and branch protection setup.
+
+## 📚 Documentation
+
+- [README.md](README.md) - Main documentation (this file)
+- [TESTING.md](TESTING.md) - Testing guide and setup
+- [TEST_SUMMARY.md](TEST_SUMMARY.md) - Test coverage details
+- [CI_CD.md](CI_CD.md) - CI/CD configuration
+- [gateway/README.md](gateway/README.md) - Gateway documentation
+- [gateway/IMPLEMENTATION.md](gateway/IMPLEMENTATION.md) - Gateway implementation details
 
 ---
 
@@ -256,11 +313,9 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
-- add authn integration tests
 - add integration tests as pre merge hook in ci/cd
-- refactor authn to use separate app and index files
 - Add integration tests for 403/401
-- add root level pnpm test all capability
+- ✅ add root level pnpm test all capability
 - Add API gateway middleware using requirePermission
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
@@ -304,5 +359,7 @@ CONNECT EXISTING DATABASE:
 - ✅ introduce API gateway
   -- Once services enforce authz correctly, tokens are trusted, and errors are consistent, then build the gateway to validate JWT once,
   inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
+- ✅ add authn integration tests
+- ✅ refactor authn to use separate app and index files
 
 ---
