@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { USER_CONTEXT_HEADER } from "../../../shared/auth";
+import { USER_CONTEXT_HEADER } from "../../../shared/auth.js";
 
 export function contextMiddleware(
   req: Request,
