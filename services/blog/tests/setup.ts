@@ -5,6 +5,7 @@ process.env.JWT_SECRET =
 
 // Override DATABASE_URL to use test database
 process.env.DATABASE_URL =
+  process.env.DATABASE_URL ||
   process.env.DATABASE_URL_TEST ||
   "postgresql://postgres:password@localhost:5433/blogs_test";
 
