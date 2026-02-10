@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   try {
     const url = `${config.services.authn}/register`;
-    
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const url = `${config.services.authn}/login`;
-    
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -49,12 +49,12 @@ router.post("/login", async (req, res) => {
 router.get("/me", async (req, res) => {
   try {
     const url = `${config.services.authn}/me`;
-    
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        "authorization": req.headers.authorization || "",
+        authorization: req.headers.authorization || "",
       },
     });
 
@@ -69,12 +69,12 @@ router.get("/me", async (req, res) => {
 router.get("/admin-only", async (req, res) => {
   try {
     const url = `${config.services.authn}/admin-only`;
-    
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        "authorization": req.headers.authorization || "",
+        authorization: req.headers.authorization || "",
       },
     });
 

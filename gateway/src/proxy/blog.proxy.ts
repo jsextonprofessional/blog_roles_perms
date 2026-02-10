@@ -18,9 +18,10 @@ async function proxyToBlogService(req: express.Request, res: express.Response) {
         "content-type": "application/json",
         "x-user-context": req.headers["x-user-context"] as string,
       },
-      body: req.method !== "GET" && req.method !== "HEAD" 
-        ? JSON.stringify(req.body) 
-        : undefined,
+      body:
+        req.method !== "GET" && req.method !== "HEAD"
+          ? JSON.stringify(req.body)
+          : undefined,
     });
 
     const text = await response.text();
@@ -35,7 +36,7 @@ async function proxyToBlogService(req: express.Request, res: express.Response) {
 router.all("/articles", proxyToBlogService);
 router.all("/articles/:id", proxyToBlogService);
 
-// Comments routes  
+// Comments routes
 router.all("/articles/:articleId/comments", proxyToBlogService);
 router.all("/comments/:id", proxyToBlogService);
 
