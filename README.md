@@ -314,22 +314,20 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
-- add integration tests as pre merge hook in ci/cd
-- Add integration tests for 403/401
-- ✅ add root level pnpm test all capability
-- Add API gateway middleware using requirePermission
-- refactor runMatrixPolicyTests to be generic + type-safe
-- wire requirePermission() using these same policies
-- Refactor type references to use canonical shared types
-- normalize error semantics
-  -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
 - wire frontend
-  -- Frontend becomes easy when URLs are stable, auth flows are real, permissions are enforced server-side. SvelteKit can then optimistically render buttons, rely on 403 responses, and hide controls via role (UX only)
-  -- write tests to prove users can't perform destructive actions without correct role/perm
-- add destructive actions/mutations abilities to frontend buttons.
+  - add destructive actions/mutations abilities to frontend buttons.
+    -- write tests to prove users can't perform destructive actions without correct role/perm
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
+- ✅ add integration tests as pre merge hook in ci/cd
+- Refactor type references to use canonical shared types
+- normalize error semantics
+  -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
+- Add integration tests for 403/401
+- Add API gateway middleware using requirePermission
+- refactor runMatrixPolicyTests to be generic + type-safe
+- wire requirePermission() using these same policies
 - ✅update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - ✅ clean up authn/index.ts - unused requests and imports
 - ✅ what is authn/script.ts doing?
@@ -362,5 +360,6 @@ CONNECT EXISTING DATABASE:
   inject x-user-id and x-user-role, forward to services, centralize CORS and rate limiting
 - ✅ add authn integration tests
 - ✅ refactor authn to use separate app and index files
+- ✅ add root level pnpm test all capability
 
 ---
