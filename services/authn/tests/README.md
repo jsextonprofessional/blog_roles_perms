@@ -5,6 +5,7 @@ Comprehensive integration tests for the authentication service covering user reg
 ## Test Coverage
 
 ### ✅ User Registration (`POST /v1/register`)
+
 - Successfully creates new user with valid data
 - Assigns default USER role when not specified
 - Allows admin role assignment
@@ -14,6 +15,7 @@ Comprehensive integration tests for the authentication service covering user reg
 - Securely hashes passwords using bcrypt
 
 ### ✅ User Login (`POST /v1/login`)
+
 - Successfully logs in with correct credentials
 - Returns valid JWT token on successful login
 - Rejects invalid passwords
@@ -21,17 +23,20 @@ Comprehensive integration tests for the authentication service covering user reg
 - Validates required fields (email, password)
 
 ### ✅ Current User Info (`GET /v1/me`)
+
 - Returns user info with valid JWT token
 - Rejects requests without authentication token
 - Rejects invalid JWT tokens
 - Rejects expired JWT tokens
 
 ### ✅ Role-Based Access Control (`GET /v1/admin-only`)
+
 - Allows admin users to access admin endpoints
 - Denies regular users from accessing admin endpoints
 - Requires authentication
 
 ### ✅ Health Check (`GET /health`)
+
 - Returns healthy status for service monitoring
 
 ## Running Tests
@@ -52,6 +57,7 @@ pnpm test -- --coverage
 ⚠️ **Important**: Make sure to use a separate test database!
 
 Set your test database in `.env`:
+
 ```bash
 DATABASE_URL="postgresql://postgres:password@localhost:5432/users_test"
 ```
@@ -72,6 +78,7 @@ The tests import `createApp()` directly from `src/app.ts`, which separates app c
 ## What Are Integration Tests?
 
 These are **integration tests** (not unit tests) because they:
+
 - Test the full HTTP request/response cycle
 - Interact with the real database (via Prisma)
 - Test multiple components working together:
@@ -85,7 +92,9 @@ These are **integration tests** (not unit tests) because they:
 ## Key Testing Patterns
 
 ### 1. Database Cleanup
+
 Tests clean up after themselves by deleting test users:
+
 ```typescript
 beforeEach(async () => {
   await prisma.user.deleteMany({
@@ -95,7 +104,9 @@ beforeEach(async () => {
 ```
 
 ### 2. JWT Token Testing
+
 Tests verify JWT tokens are valid and contain correct claims:
+
 ```typescript
 const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
 expect(decoded).toHaveProperty("userId");
@@ -103,7 +114,9 @@ expect(decoded).toHaveProperty("role");
 ```
 
 ### 3. Password Security
+
 Tests ensure passwords are hashed, not stored in plain text:
+
 ```typescript
 const user = await prisma.user.findUnique({ where: { id: userId } });
 expect(user?.passwordHash).not.toBe(password);
@@ -111,7 +124,9 @@ expect(user?.passwordHash).toMatch(/^\$2[aby]\$/); // bcrypt pattern
 ```
 
 ### 4. Error Cases
+
 Tests cover both success and failure scenarios:
+
 - Missing required fields
 - Invalid credentials
 - Expired tokens
