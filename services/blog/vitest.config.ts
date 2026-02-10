@@ -1,13 +1,24 @@
 import { defineConfig } from "vitest/config";
-import dotenv from "dotenv";
-
-dotenv.config({ path: ".env.test" });
 
 export default defineConfig({
   test: {
-    setupFiles: ["./tests/integration/setup/index.ts"],
+    globals: true,
+    environment: "node",
+    include: ["tests/**/*.test.ts", "src/**/*.test.ts"],
+    setupFiles: ["./tests/setup.ts"],
     env: {
       NODE_ENV: "test",
+    },
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: [
+        "node_modules/",
+        "dist/",
+        "generated/",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+      ],
     },
   },
 });
