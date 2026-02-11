@@ -317,6 +317,7 @@ CONNECT EXISTING DATABASE:
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
     -- write tests to prove users can't perform destructive actions without correct role/perm
+- entered password should not be visible in network call
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
