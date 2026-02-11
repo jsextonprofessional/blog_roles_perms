@@ -1,6 +1,7 @@
 import { ApiError } from './api/errors';
 
-const API_BASE = import.meta.env.DEV ? '/api' : 'http://localhost:3000/api';
+// Gateway API base URL - frontend makes requests to gateway which proxies to services
+const API_BASE = 'http://localhost:3000/v1/auth';
 
 export async function apiFetch(endpoint: string, options: RequestInit = {}) {
 	const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
