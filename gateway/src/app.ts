@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { authnMiddleware } from "./middleware/authn.js";
 import { rateLimitMiddleware } from "./middleware/rateLimit.js";
 import { auditMiddleware } from "./middleware/audit.js";
@@ -8,6 +9,16 @@ import authProxy from "./proxy/auth.proxy.js";
 
 export function createApp() {
   const app = express();
+
+  // CORS configuration - allow frontend to make requests
+  app.use(
+    cors({
+      origin: ["http://localhost:5173", "http://localhost:3000"],
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    }),
+  );
 
   app.use(express.json());
 

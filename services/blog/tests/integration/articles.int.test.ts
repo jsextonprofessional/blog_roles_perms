@@ -21,12 +21,28 @@ describe("Articles integration authz", () => {
       content: "Content by Alice",
     });
 
+    if (!articleResponseOne.body.article) {
+      console.error("Failed to create article for Alice:", {
+        status: articleResponseOne.status,
+        body: articleResponseOne.body,
+      });
+      throw new Error("Failed to create test article");
+    }
+
     articleOneId = articleResponseOne.body.article.id;
 
     const articleResponseTwo = await createArticle(app, bobToken, {
       title: "Bob's Article",
       content: "Content by Bob",
     });
+
+    if (!articleResponseTwo.body.article) {
+      console.error("Failed to create article for Bob:", {
+        status: articleResponseTwo.status,
+        body: articleResponseTwo.body,
+      });
+      throw new Error("Failed to create test article");
+    }
 
     articleTwoId = articleResponseTwo.body.article.id;
   });

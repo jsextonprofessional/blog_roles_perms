@@ -7,7 +7,7 @@ const router = express.Router();
 // Public routes (no authentication required)
 router.post("/register", async (req, res) => {
   try {
-    const url = `${config.services.authn}/register`;
+    const url = `${config.services.authn}/v1/register`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const url = `${config.services.authn}/login`;
+    const url = `${config.services.authn}/v1/login`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
 // Protected routes (pass through with user context)
 router.get("/me", async (req, res) => {
   try {
-    const url = `${config.services.authn}/me`;
+    const url = `${config.services.authn}/v1/me`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -68,7 +68,7 @@ router.get("/me", async (req, res) => {
 
 router.get("/admin-only", async (req, res) => {
   try {
-    const url = `${config.services.authn}/admin-only`;
+    const url = `${config.services.authn}/v1/admin-only`;
 
     const response = await fetch(url, {
       method: "GET",
