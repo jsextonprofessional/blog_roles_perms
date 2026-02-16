@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { loginWithEmail, registerUser } from '$lib/auth/auth.mutations';
+	import { loginWithEmail, registerUser } from '$lib/auth/auth.api';
 
 	let firstName = '';
 	let lastName = '';

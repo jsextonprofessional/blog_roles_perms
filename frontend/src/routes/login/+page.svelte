@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { apiFetch } from '$lib/api';
-	import { login } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import { loginWithEmail } from '$lib/auth/auth.mutations';
+	import { loginWithEmail } from '$lib/auth/auth.api';
 	import { AuthError } from '$lib/auth/errors';
 
 	let email = '';
