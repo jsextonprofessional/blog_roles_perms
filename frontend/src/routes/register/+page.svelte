@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { apiFetch } from '$lib/api';
-	import { login } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
-	import { loginWithEmail } from '$lib/auth/auth.mutations';
+	import { loginWithEmail, registerUser } from '$lib/auth/auth.mutations';
 
 	let firstName = '';
 	let lastName = '';
@@ -16,11 +14,7 @@
 		error = '';
 
 		try {
-			await apiFetch('register', {
-				method: 'POST',
-				body: JSON.stringify({ firstName, lastName, email, password })
-			});
-
+			await registerUser(firstName, lastName, email, password);
 			await loginWithEmail(email, password);
 			goto('/');
 		} catch (err: any) {
