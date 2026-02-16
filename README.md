@@ -317,11 +317,11 @@ CONNECT EXISTING DATABASE:
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
     -- write tests to prove users can't perform destructive actions without correct role/perm
-- entered password should not be visible in network call
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
-- ✅ add integration tests as pre merge hook in ci/cd
+- deploy to prod
+- add mobile react native fe service
 - Refactor type references to use canonical shared types
 - normalize error semantics
   -- 401 → unauthenticated, 403 → authenticated but forbidden, 404 → resource does not exist (don’t leak ownership!)
@@ -329,6 +329,7 @@ CONNECT EXISTING DATABASE:
 - Add API gateway middleware using requirePermission
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
+- all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
 - ✅update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - ✅ clean up authn/index.ts - unused requests and imports
 - ✅ what is authn/script.ts doing?
@@ -362,5 +363,7 @@ CONNECT EXISTING DATABASE:
 - ✅ add authn integration tests
 - ✅ refactor authn to use separate app and index files
 - ✅ add root level pnpm test all capability
+- ✅ entered password should not be visible in network call - check if this is still an issue after deployed to prod
+- ✅ add integration tests as pre merge hook in ci/cd
 
 ---
