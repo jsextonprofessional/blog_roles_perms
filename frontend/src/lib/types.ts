@@ -1,8 +1,3 @@
-// from gpt 260112
-// type Session =
-//   | { user: null }
-//   | { user: User };
-
 export enum Role {
 	USER = 'USER',
 	ADMIN = 'ADMIN'
