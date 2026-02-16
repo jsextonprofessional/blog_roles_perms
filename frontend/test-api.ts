@@ -4,7 +4,7 @@ import { apiFetch } from './src/lib/api';
 // Test login
 async function testLogin() {
 	try {
-		const data = await apiFetch('/login', {
+		const data = await apiFetch('auth', '/login', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'admin@example.com',
@@ -24,7 +24,7 @@ async function testLogin() {
 // Test health (public endpoint)
 async function testHealth() {
 	try {
-		const data = await apiFetch('/health');
+		const data = await apiFetch('auth', '/health');
 		console.log('✅ Health check:', data);
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
