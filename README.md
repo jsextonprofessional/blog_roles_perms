@@ -317,6 +317,8 @@ CONNECT EXISTING DATABASE:
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
     -- write tests to prove users can't perform destructive actions without correct role/perm
+- all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
+- write unit tests for frontend auth.api and blog.api
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
 - resolve home / route to /blog
@@ -329,7 +331,6 @@ CONNECT EXISTING DATABASE:
 - Add API gateway middleware using requirePermission
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
-- all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
 - ✅update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - ✅ clean up authn/index.ts - unused requests and imports
 - ✅ what is authn/script.ts doing?
