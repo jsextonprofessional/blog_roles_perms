@@ -18,6 +18,6 @@
 			placeholder="this is a placeholder for comment..."
 		></textarea>
 
-		<Button label="Submit Comment" type="submit" />
+		<Button label="Submit Comment" type="submit" theme="primary" />
 	</form>
 </div>

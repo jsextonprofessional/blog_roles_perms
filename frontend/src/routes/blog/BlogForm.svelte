@@ -19,6 +19,6 @@
 			placeholder="Write your blurb here..."
 			rows="10"
 		></textarea>
-		<Button label="Submit Post bespoke" type="submit" />
+		<Button label="Submit Post bespoke" type="submit" theme="primary" />
 	</form>
 </div>
