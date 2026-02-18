@@ -8,7 +8,6 @@ export async function getArticles(): Promise<Article[]> {
 	return response.articles || [];
 }
 
-// create a new article
 export async function createArticle(title: string, content: string) {
 	return await apiFetch('blog', 'articles', {
 		method: 'POST',
