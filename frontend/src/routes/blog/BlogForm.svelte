@@ -2,30 +2,38 @@
 	import { enhance } from '$app/forms';
 	import Button from '$lib/components/Button.svelte';
 	import { page } from '$app/state';
+	import { auth } from '$lib/stores/auth';
 
 	let form = $derived(page.form);
 </script>
 
 <div>
-	<form method="POST" action="?/submitBlog" use:enhance>
+	<form method="POST" action="?/createArticle" use:enhance>
 		{#if form?.error}
-			<div class="rounded bg-red-50 p-3 text-red-600">{form.error}</div>
+			<div class="mb-3 rounded bg-red-50 p-3 text-red-600">{form.error}</div>
 		{/if}
 
-		<!-- name attribute is necessary for form submission. binds to server action. -->
+		{#if form?.success}
+			<div class="mb-3 rounded bg-green-50 p-3 text-green-600">Article created successfully!</div>
+		{/if}
 
-    <input
-      type="text"
-      name="title"
-      class="w-full rounded-md border-2 border-gray-300 p-2"
-      placeholder="Write your title here..."
-    />
+		<!-- Hidden field to pass auth token to server -->
+		<input type="hidden" name="token" value={$auth.token || ''} />
+
+		<input
+			type="text"
+			name="title"
+			class="mb-3 w-full rounded-md border-2 border-gray-300 p-2"
+			placeholder="Article title..."
+			required
+		/>
 		<textarea
 			name="body"
-			class="w-full rounded-md border-2 border-gray-300 p-2"
-			placeholder="Write your blurb here..."
+			class="mb-3 w-full rounded-md border-2 border-gray-300 p-2"
+			placeholder="Write your article here..."
 			rows="10"
+			required
 		></textarea>
-		<Button label="Submit Post bespoke" type="submit" theme="primary" />
+		<Button label="Submit Article" type="submit" theme="primary" />
 	</form>
 </div>
