@@ -1,4 +1,3 @@
-// Backend API types
 export interface Article {
 	id: string;
 	authorId: string;
