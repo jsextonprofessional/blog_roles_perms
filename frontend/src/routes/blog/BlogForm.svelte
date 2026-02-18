@@ -13,6 +13,13 @@
 		{/if}
 
 		<!-- name attribute is necessary for form submission. binds to server action. -->
+
+    <input
+      type="text"
+      name="title"
+      class="w-full rounded-md border-2 border-gray-300 p-2"
+      placeholder="Write your title here..."
+    />
 		<textarea
 			name="body"
 			class="w-full rounded-md border-2 border-gray-300 p-2"
