@@ -1,4 +1,6 @@
 import { apiFetch } from '$lib/api';
+import { auth } from '$lib/stores/auth';
+import { get } from 'svelte/store';
 import type { Article } from './types';
 
 export async function getArticles(): Promise<Article[]> {
@@ -8,9 +10,19 @@ export async function getArticles(): Promise<Article[]> {
 	return response.articles || [];
 }
 
-export async function createArticle(title: string, content: string) {
+export async function createArticle(title: string, content: string, token?: string) {
+	// Use provided token or get from store (for client-side calls)
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required');
+	}
+
 	return await apiFetch('blog', 'articles', {
 		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		},
 		body: JSON.stringify({ title, content })
 	});
 }
