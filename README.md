@@ -316,6 +316,13 @@ CONNECT EXISTING DATABASE:
 
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
+    -- ✅ create article
+    -- create comment
+    -- delete comment
+    -- delete article
+    -- edit article + UI
+    --- click edit button -> setState isEditingArticle(articleId) -> conditional render textarea when isEditingArticle is true -> on submit send PATCH request and set isEditingArticle false
+    -- edit comment + ui
     -- write tests to prove users can't perform destructive actions without correct role/perm
 - all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
 - write unit tests for frontend auth.api and blog.api
