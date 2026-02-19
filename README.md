@@ -301,7 +301,7 @@ CONNECT EXISTING DATABASE:
 - GET requests live in server `load` function per page, and are accessible in corresponding +page.svelte files via
   `import type { PageData } from './$types';
 export let data: PageData;`
-- POST requests live in +page.server.ts actions. they _can_ live here, but idk if this is canonical. i like them better here as compared to placing POST and PATCHES directly in +page.svelte files.
+- POST requests live in +page.server.ts actions. they _can_ live here, but idk if this is canonical. i like them better here as compared to placing POST and PATCHES directly in +page.svelte files as doing so causes bloat. i'm almost using the server files the way i would use utils in react. again, not sure if i'm thinking about this correctly, but that's my _mental model_ 🤢.
 
 ---
 
