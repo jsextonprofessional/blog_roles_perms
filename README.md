@@ -324,6 +324,9 @@ CONNECT EXISTING DATABASE:
     --- click edit button -> setState isEditingArticle(articleId) -> conditional render textarea when isEditingArticle is true -> on submit send PATCH request and set isEditingArticle false
     -- edit comment + ui
     -- write tests to prove users can't perform destructive actions without correct role/perm
+    --- unit test api functions
+    --- integration test button interactions
+    --- e2e test all user paths in blog
 - all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
 - write unit tests for frontend auth.api and blog.api
 - consider replacing "if (browser)" for routes/api/me for auth
