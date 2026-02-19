@@ -338,6 +338,7 @@ export let data: PageData;`
     --- integration test button interactions
     --- e2e test all user paths in blog
 - all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
+- [housekeeping] cleanup unused imports and props
 - write unit tests for frontend auth.api and blog.api
 - consider replacing "if (browser)" for routes/api/me for auth
 - refactor /login and /register to use sveltekit 5 form actions pattern
@@ -353,6 +354,7 @@ export let data: PageData;`
 - wire requirePermission() using these same policies
 - remove submitBlog from blog.api -- vestigial function
 - research and consider fixing frontend api architecture. blog.api and comment.api are in own directory, do we need standalone src/lib/api directory?
+- is my authentication endpoint causing bloat? is it hitting the api every time it's referenced? or is the token stored/cached and referenced in a less expensive way?
 - ✅update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - ✅ clean up authn/index.ts - unused requests and imports
 - ✅ what is authn/script.ts doing?
