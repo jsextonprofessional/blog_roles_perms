@@ -10,7 +10,7 @@ export async function getArticles(): Promise<Article[]> {
 	return response.articles || [];
 }
 
-export async function createArticle(title: string, content: string, token?: string) {
+export async function createArticle(title: string, content: string, token?: string): Promise<void> {
 	const authToken = token || get(auth).token;
 
 	if (!authToken) {
@@ -50,20 +50,35 @@ export async function deleteArticle(articleId: string) {
 }
 
 // fetch comments for an article (requires authentication)
-export async function getComments(articleId: string, token: string): Promise<Comment[]> {
+export async function getComments(articleId: string, token?: string): Promise<Comment[]> {
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required to fetch comments');
+	}
+
 	const response = await apiFetch('blog', `articles/${articleId}/comments`, {
 		method: 'GET',
 		headers: {
-			Authorization: `Bearer ${token}`
+			Authorization: `Bearer ${authToken}`
 		}
 	});
 	return response.comments || [];
 }
 
 // create a new comment
-export async function createComment(articleId: string, content: string) {
+export async function createComment(articleId: string, content: string, token?: string) {
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required to create comments');
+	}
+
 	return await apiFetch('blog', `articles/${articleId}/comments`, {
 		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		},
 		body: JSON.stringify({ content })
 	});
 }
