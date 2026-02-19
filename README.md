@@ -341,6 +341,7 @@ CONNECT EXISTING DATABASE:
 - Add API gateway middleware using requirePermission
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
+- remove submitBlog from blog.api -- vestigial function
 - ✅update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - ✅ clean up authn/index.ts - unused requests and imports
 - ✅ what is authn/script.ts doing?

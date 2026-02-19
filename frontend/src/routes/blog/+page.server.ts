@@ -23,6 +23,7 @@ export const actions: Actions = {
 	},
 
 	// TODO: Add editArticle and deleteArticle actions following the same pattern
+	// p sure submitBlog isn't used.
 	submitBlog: async ({ request }) => {
 		const data = await request.formData();
 		const title = data.get('title')?.toString().trim();
