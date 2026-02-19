@@ -1,4 +1,4 @@
-import { createArticle } from '$lib/blog/blog.api';
+import { createArticle, createComment } from '$lib/blog/blog.api';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 
@@ -19,6 +19,25 @@ export const actions: Actions = {
 		} catch (error) {
 			console.error('Error creating article:', error);
 			return fail(500, { error: 'Failed to create article' });
+		}
+	},
+
+	createComment: async ({ request }) => {
+		const data = await request.formData();
+		const content = data.get('content')?.toString().trim();
+		const articleId = data.get('articleId')?.toString();
+		const token = data.get('token')?.toString();
+
+		if (!content) return fail(400, { error: 'Comment content is required' });
+		if (!articleId) return fail(400, { error: 'Article ID is required' });
+		if (!token) return fail(401, { error: 'Authentication required' });
+
+		try {
+			await createComment(articleId, content, token);
+			return { success: true };
+		} catch (error) {
+			console.error('Error creating comment:', error);
+			return fail(500, { error: 'Failed to create comment' });
 		}
 	},
 
