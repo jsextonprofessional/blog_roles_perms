@@ -27,10 +27,18 @@ export async function createArticle(title: string, content: string, token?: stri
 	});
 }
 
-// edit an article
 export async function editArticle(articleId: string, title: string, content: string) {
+	const authToken = get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required');
+	}
+
 	return await apiFetch('blog', `articles/${articleId}`, {
-		method: 'PUT',
+		method: 'PATCH',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		},
 		body: JSON.stringify({ title, content })
 	});
 }
