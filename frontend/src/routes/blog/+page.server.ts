@@ -39,33 +39,5 @@ export const actions: Actions = {
 			console.error('Error creating comment:', error);
 			return fail(500, { error: 'Failed to create comment' });
 		}
-	},
-
-	// TODO: Add editArticle and deleteArticle actions following the same pattern
-	// p sure submitBlog isn't used.
-	submitBlog: async ({ request }) => {
-		const data = await request.formData();
-		const title = data.get('title')?.toString().trim();
-		const body = data.get('body')?.toString().trim();
-
-		if (!title) return fail(400, { error: 'Blog title is required' });
-		if (!body) return fail(400, { error: 'Blog body is required' });
-
-		// save to DB
-		createArticle(title, body).catch((err) => {
-			console.error('Error creating article:', err);
-		});
-		console.log('Blog submitted:', { title, body });
-		return { success: true };
-	},
-	submitComment: async ({ request }) => {
-		const data = await request.formData();
-		const content = data.get('content')?.toString().trim();
-
-		if (!content) return fail(400, { error: 'Comment content is required' });
-
-		// save to DB
-		console.log('Comment submitted:', { content });
-		return { success: true };
 	}
 } satisfies Actions;
