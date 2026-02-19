@@ -295,6 +295,16 @@ CONNECT EXISTING DATABASE:
 
 ---
 
+## SvelteKit5 Notes - Blog About Me
+
+- Aggregate all requests almost as helper functions in src/lib/[service]/[service].api.ts file ie frontend/src/lib/blog/blog.api.ts
+- GET requests live in server `load` function per page, and are accessible in corresponding +page.svelte files via
+  `import type { PageData } from './$types';
+export let data: PageData;`
+- POST requests live in +page.server.ts actions. they _can_ live here, but idk if this is canonical. i like them better here as compared to placing POST and PATCHES directly in +page.svelte files.
+
+---
+
 ### Where was I?
 
 - left off 260203 added integration tests for route accessing and permissions behaviors. Adds test db via docker. Test data is deleted after testing. began gateway setup.
@@ -342,6 +352,7 @@ CONNECT EXISTING DATABASE:
 - refactor runMatrixPolicyTests to be generic + type-safe
 - wire requirePermission() using these same policies
 - remove submitBlog from blog.api -- vestigial function
+- research and consider fixing frontend api architecture. blog.api and comment.api are in own directory, do we need standalone src/lib/api directory?
 - ✅update schema mapping - model and table should be similar (users becomes user). First update schema, then run migrations, then change references throughout app.
 - ✅ clean up authn/index.ts - unused requests and imports
 - ✅ what is authn/script.ts doing?
