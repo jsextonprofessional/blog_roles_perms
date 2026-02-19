@@ -1,4 +1,4 @@
-import { createArticle } from '$lib/blog/blog.api';
+import { createArticle, createComment } from '$lib/blog/blog.api';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 
@@ -22,30 +22,22 @@ export const actions: Actions = {
 		}
 	},
 
-	// TODO: Add editArticle and deleteArticle actions following the same pattern
-	submitBlog: async ({ request }) => {
-		const data = await request.formData();
-		const title = data.get('title')?.toString().trim();
-		const body = data.get('body')?.toString().trim();
-
-		if (!title) return fail(400, { error: 'Blog title is required' });
-		if (!body) return fail(400, { error: 'Blog body is required' });
-
-		// save to DB
-		createArticle(title, body).catch((err) => {
-			console.error('Error creating article:', err);
-		});
-		console.log('Blog submitted:', { title, body });
-		return { success: true };
-	},
-	submitComment: async ({ request }) => {
+	createComment: async ({ request }) => {
 		const data = await request.formData();
 		const content = data.get('content')?.toString().trim();
+		const articleId = data.get('articleId')?.toString();
+		const token = data.get('token')?.toString();
 
 		if (!content) return fail(400, { error: 'Comment content is required' });
+		if (!articleId) return fail(400, { error: 'Article ID is required' });
+		if (!token) return fail(401, { error: 'Authentication required' });
 
-		// save to DB
-		console.log('Comment submitted:', { content });
-		return { success: true };
+		try {
+			await createComment(articleId, content, token);
+			return { success: true };
+		} catch (error) {
+			console.error('Error creating comment:', error);
+			return fail(500, { error: 'Failed to create comment' });
+		}
 	}
 } satisfies Actions;

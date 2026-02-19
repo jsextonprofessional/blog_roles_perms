@@ -12,7 +12,7 @@
 	};
 </script>
 
-<!-- formAction is optional prop. it's use case would be if you need to override the form's action attribute. ie if form's action="?/submitComment", button's formAction="?/submitCommentAlternateRoute" (go somewhere besides default route) can be left out when mounted on parent. VERY COOL. -->
+<!-- formAction is optional prop. it's use case would be if you need to override the form's action attribute. ie if form's action="?/createComment", button's formAction="?/createCommentAlternateRoute" (go somewhere besides default route) can be left out when mounted on parent. VERY COOL. -->
 <button
 	{type}
 	formaction={formAction}

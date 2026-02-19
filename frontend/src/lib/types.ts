@@ -23,7 +23,7 @@ export interface BlogPost {
 
 export interface Comment {
 	id: string;
-	postId: string;
+	articleId: string;
 	authorId: string;
 	body: string;
 	createdAt: Date;

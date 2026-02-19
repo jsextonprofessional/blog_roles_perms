@@ -1,7 +1,7 @@
 import { apiFetch } from '$lib/api';
 import { auth } from '$lib/stores/auth';
 import { get } from 'svelte/store';
-import type { Article } from './types';
+import type { Article, Comment } from './types';
 
 export async function getArticles(): Promise<Article[]> {
 	const response = await apiFetch('blog', 'articles', {
@@ -10,8 +10,7 @@ export async function getArticles(): Promise<Article[]> {
 	return response.articles || [];
 }
 
-export async function createArticle(title: string, content: string, token?: string) {
-	// Use provided token or get from store (for client-side calls)
+export async function createArticle(title: string, content: string, token?: string): Promise<void> {
 	const authToken = token || get(auth).token;
 
 	if (!authToken) {
@@ -50,17 +49,36 @@ export async function deleteArticle(articleId: string) {
 	});
 }
 
-// fetch comments for an article
-export async function getComments(articleId: string): Promise<Comment[]> {
-	return await apiFetch('blog', `articles/${articleId}/comments`, {
-		method: 'GET'
+// fetch comments for an article (requires authentication)
+export async function getComments(articleId: string, token?: string): Promise<Comment[]> {
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required to fetch comments');
+	}
+
+	const response = await apiFetch('blog', `articles/${articleId}/comments`, {
+		method: 'GET',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		}
 	});
+	return response.comments || [];
 }
 
 // create a new comment
-export async function createComment(articleId: string, content: string) {
+export async function createComment(articleId: string, content: string, token?: string) {
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required to create comments');
+	}
+
 	return await apiFetch('blog', `articles/${articleId}/comments`, {
 		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		},
 		body: JSON.stringify({ content })
 	});
 }
