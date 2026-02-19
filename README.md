@@ -299,9 +299,10 @@ CONNECT EXISTING DATABASE:
 
 - Aggregate all requests almost as helper functions in src/lib/[service]/[service].api.ts file ie frontend/src/lib/blog/blog.api.ts
 - GET requests live in server `load` function per page, and are accessible in corresponding +page.svelte files via
-  `import type { PageData } from './$types';
-export let data: PageData;`
+  `import type { PageData } from './$types';`
+  `export let data: PageData;`
 - POST requests live in +page.server.ts actions. they _can_ live here, but idk if this is canonical. i like them better here as compared to placing POST and PATCHES directly in +page.svelte files as doing so causes bloat. i'm almost using the server files the way i would use utils in react. again, not sure if i'm thinking about this correctly, but that's my _mental model_ 🤢.
+- leverage hidden fields in form elements to pass tokens and ids from forms to requests. in the ui +[component].svelte file they look like props but they're fields accessible to the server action. so +page.server.ts and CommentForm.svelte and its parent BlogBody.svelte all have access to these token and id `let { articleId, token } = $props();`
 
 ---
 
