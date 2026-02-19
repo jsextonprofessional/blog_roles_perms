@@ -17,6 +17,9 @@ async function proxyToBlogService(req: express.Request, res: express.Response) {
       headers: {
         "content-type": "application/json",
         "x-user-context": req.headers["x-user-context"] as string,
+        ...(req.headers.authorization && {
+          authorization: req.headers.authorization,
+        }),
       },
       body:
         req.method !== "GET" && req.method !== "HEAD"

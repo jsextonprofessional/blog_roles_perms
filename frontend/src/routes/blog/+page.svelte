@@ -1,30 +1,37 @@
 <script lang="ts">
 	import BlogBody from './BlogBody.svelte';
 	import BlogForm from './BlogForm.svelte';
-	import { blogPosts, comments } from '$lib/dummyData';
-  import { auth } from '$lib/stores/auth';
+	import { comments } from '$lib/dummyData';
+	import { auth } from '$lib/stores/auth';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <!-- Debug helpers (remove later) -->
 <div class="mt-8 text-sm text-gray-500">
-  Debug: {$auth.user ? `Logged in ${JSON.stringify($auth.user)}` : 'Not logged in'}
+	Debug: {$auth.user ? `Logged in ${JSON.stringify($auth.user)}` : 'Not logged in'}
 </div>
 
-<div class="flex flex-row border-2 border-yellow-500 gap-4 p-4">
+<div class="flex flex-row gap-4 border-2 border-yellow-500 p-4">
 	<div class={`flex flex-col ${$auth.user ? 'basis-2/3' : 'basis-full'} justify-between`}>
-		{#each blogPosts as post}
-      <BlogBody
-        postId={post.id}
-        authorId={post.authorId}
-        title={post.title}
-        body={post.body}
-        comments={comments.filter(c => c.postId === post.id)}
-      />
-		{/each}
+		{#if data.articles.length === 0}
+			<p class="text-gray-500">No articles yet.</p>
+		{:else}
+			{#each data.articles as article}
+				<BlogBody
+					postId={article.id}
+					authorId={article.authorId}
+					title={article.title}
+					body={article.content}
+					comments={comments.filter((c) => c.postId === article.id)}
+				/>
+			{/each}
+		{/if}
 	</div>
-  {#if $auth.user}
-	<div class="flex basis-1/3 flex-col">
-		<BlogForm />
-	</div>
-  {/if}
+	{#if $auth.user}
+		<div class="flex basis-1/3 flex-col">
+			<BlogForm />
+		</div>
+	{/if}
 </div>

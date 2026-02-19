@@ -86,21 +86,24 @@ jobs:
           PGPASSWORD=password psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE users_test"
           PGPASSWORD=password psql -h localhost -p 5433 -U postgres -c "CREATE DATABASE blogs_test"
 
-      - name: Run migrations for test databases
+      - name: Generate Prisma clients and run migrations
         run: |
-          # Authn service migrations
+          # Authn service - generate client and run migrations
           cd services/authn
+          pnpm prisma generate
           DATABASE_URL="postgresql://postgres:password@localhost:5432/users_test" pnpm prisma migrate deploy
 
-          # Blog service migrations
+          # Blog service - generate client and run migrations
           cd ../blog
+          pnpm prisma generate
           DATABASE_URL="postgresql://postgres:password@localhost:5433/blogs_test" pnpm prisma migrate deploy
 
       - name: Run all tests
         run: pnpm test
         env:
           NODE_ENV: test
-          DATABASE_URL_TEST: postgresql://postgres:password@localhost:5432/users_test
+          # Set DATABASE_URL for each service's test database
+          DATABASE_URL: postgresql://postgres:password@localhost:5433/blogs_test
           JWT_SECRET: test-jwt-secret-for-ci
 
       - name: Test Summary
