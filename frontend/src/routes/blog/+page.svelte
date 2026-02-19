@@ -24,7 +24,7 @@
 					authorId={article.authorId}
 					title={article.title}
 					body={article.content}
-					comments={comments.filter((c) => c.postId === article.id)}
+					comments={article.comments || []}
 				/>
 			{/each}
 		{/if}
