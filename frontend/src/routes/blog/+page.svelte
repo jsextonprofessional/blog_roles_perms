@@ -1,7 +1,6 @@
 <script lang="ts">
 	import BlogBody from './BlogBody.svelte';
 	import BlogForm from './BlogForm.svelte';
-	import { comments } from '$lib/dummyData';
 	import { auth } from '$lib/stores/auth';
 	import type { PageData } from './$types';
 
@@ -20,7 +19,7 @@
 		{:else}
 			{#each data.articles as article}
 				<BlogBody
-					postId={article.id}
+					articleId={article.id}
 					authorId={article.authorId}
 					title={article.title}
 					body={article.content}
