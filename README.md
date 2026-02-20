@@ -350,6 +350,7 @@ CONNECT EXISTING DATABASE:
     --- unit test api functions
     --- integration test button interactions
     --- e2e test all user paths in blog
+- fix failing frontent tests
 - all routes should be accessed via .env rather than hardcoded http//:3000 or whatever
 - [housekeeping] cleanup unused imports and props
 - write unit tests for frontend auth.api and blog.api
