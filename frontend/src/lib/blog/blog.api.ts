@@ -26,7 +26,12 @@ export async function createArticle(title: string, content: string, token?: stri
 	});
 }
 
-export async function editArticle(articleId: string, title: string, content: string) {
+export async function editArticle(
+	articleId: string,
+	title: string,
+	content: string,
+	token?: string
+) {
 	const authToken = get(auth).token;
 
 	if (!authToken) {
@@ -42,7 +47,6 @@ export async function editArticle(articleId: string, title: string, content: str
 	});
 }
 
-// delete an article
 export async function deleteArticle(articleId: string, token?: string) {
 	const authToken = token || get(auth).token;
 
