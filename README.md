@@ -303,11 +303,13 @@ CONNECT EXISTING DATABASE:
   `export let data: PageData;`
 - POST requests live in +page.server.ts actions. they _can_ live here, but idk if this is canonical. i like them better here as compared to placing POST and PATCHES directly in +page.svelte files as doing so causes bloat. i'm almost using the server files the way i would use utils in react. again, not sure if i'm thinking about this correctly, but that's my _mental model_ 🤢.
 - leverage hidden fields in form elements to pass tokens and ids from forms to requests. in the ui +[component].svelte file they look like props but they're fields accessible to the server action. so +page.server.ts and CommentForm.svelte and its parent BlogBody.svelte all have access to these token and id `let { articleId, token } = $props();`
+- working with AI has really helped me develop articulating problems and expected outputs
 
 ---
 
 ### Where was I?
 
+- left off 260220 Manually added deleteComment functionality to frontend.
 - left off 260219 Adds getComments and createComment functionality in frontend. Removes vestigial server actions. Modernizes prop names. Cut branch to begin delete article work.
 - left off 260203 added integration tests for route accessing and permissions behaviors. Adds test db via docker. Test data is deleted after testing. began gateway setup.
 - left off 260130 created policy matrix. developed types and fixtures. broke testing apart into matrices, test runner, and test files.
@@ -326,11 +328,20 @@ CONNECT EXISTING DATABASE:
 
 ### To do:
 
+- add toast to show "comment deleted" or "article deleted" or "article edited" or "comment edited" + ui testing
+- show remnant if comment/article edited
+- ask ai just bc I can't see delete/edit buttons for comments/articles that don't match authorId per conditional rendering, is there some fancy CSP way that a bad actor could manipulate dev tools or csr to make those buttons available and "click" them with js to force a delete/edit?
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
     -- ✅ create article
     -- ✅ create comment
-    -- delete comment
+    -- ✅ delete comment
+    ---- ac: admin can see delete button
+    ---- admin can delete
+    ---- author can see delete button
+    ---- author can delete
+    ---- non author can't see delete button
+    ---- no author can't delete
     -- delete article
     -- edit article + UI
     --- click edit button -> setState isEditingArticle(articleId) -> conditional render textarea when isEditingArticle is true -> on submit send PATCH request and set isEditingArticle false
