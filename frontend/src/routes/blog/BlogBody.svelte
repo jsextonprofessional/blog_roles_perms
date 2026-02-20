@@ -14,16 +14,14 @@
 			<h1>{title}</h1>
 			<div>{@html body}</div>
 		</div>
-		{#if $auth.user && $auth.user.id === authorId}
-			<div class="flex flex-row justify-end gap-4">
+		<div class="flex flex-row justify-end gap-4">
+			{#if $auth.user && $auth.user.id === authorId}
 				<Button label="Edit Post" type="button" theme="warning" />
+			{/if}
+			{#if $auth.user && ($auth.user.id === authorId || $auth.user.role === Role.ADMIN)}
 				<Button label="Delete Post" type="button" theme="danger" />
-			</div>
-		{:else if $auth.user && $auth.user.role === Role.ADMIN}
-			<div class="flex flex-row justify-end gap-4">
-				<Button label="Delete Post" type="button" theme="danger" />
-			</div>
-		{/if}
+			{/if}
+		</div>
 	</div>
 
 	{#if $auth.user}
