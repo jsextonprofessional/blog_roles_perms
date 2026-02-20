@@ -331,6 +331,7 @@ CONNECT EXISTING DATABASE:
 - add toast to show "comment deleted" or "article deleted" or "article edited" or "comment edited" + ui testing
 - show remnant if comment/article edited
 - ask ai just bc I can't see delete/edit buttons for comments/articles that don't match authorId per conditional rendering, is there some fancy CSP way that a bad actor could manipulate dev tools or csr to make those buttons available and "click" them with js to force a delete/edit?
+- ask ai should blog.api functions each have a return type? Promise<void>?
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
     -- ✅ create article
@@ -342,7 +343,7 @@ CONNECT EXISTING DATABASE:
     ---- author can delete
     ---- non author can't see delete button
     ---- no author can't delete
-    -- delete article
+    -- ✅ delete article
     -- edit article + UI
     --- click edit button -> setState isEditingArticle(articleId) -> conditional render textarea when isEditingArticle is true -> on submit send PATCH request and set isEditingArticle false
     -- edit comment + ui
