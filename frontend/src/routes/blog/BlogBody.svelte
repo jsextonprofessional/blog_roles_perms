@@ -19,7 +19,12 @@
 				<Button label="Edit Post" type="button" theme="warning" />
 			{/if}
 			{#if $auth.user && ($auth.user.id === authorId || $auth.user.role === Role.ADMIN)}
-				<Button label="Delete Post" type="button" theme="danger" />
+				<form method="POST" action="?/deleteArticle">
+					<input type="hidden" name="articleId" value={articleId} />
+					<input type="hidden" name="token" value={$auth.token || ''} />
+
+					<Button label="Delete Post" type="submit" theme="danger" />
+				</form>
 			{/if}
 		</div>
 	</div>
