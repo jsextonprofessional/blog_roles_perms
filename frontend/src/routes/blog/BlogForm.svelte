@@ -17,7 +17,6 @@
 			<div class="mb-3 rounded bg-green-50 p-3 text-green-600">Article created successfully!</div>
 		{/if}
 
-		<!-- Hidden field to pass auth token to server -->
 		<input type="hidden" name="token" value={$auth.token || ''} />
 
 		<input
