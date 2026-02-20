@@ -1,4 +1,10 @@
-import { createArticle, createComment, deleteArticle, deleteComment } from '$lib/blog/blog.api';
+import {
+	createArticle,
+	createComment,
+	deleteArticle,
+	deleteComment,
+	editArticle
+} from '$lib/blog/blog.api';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 
@@ -19,6 +25,26 @@ export const actions: Actions = {
 		} catch (error) {
 			console.error('Error creating article:', error);
 			return fail(500, { error: 'Failed to create article' });
+		}
+	},
+	editArticle: async ({ request }) => {
+		const data = await request.formData();
+		const articleId = data.get('articleId')?.toString();
+		const title = data.get('title')?.toString().trim();
+		const body = data.get('body')?.toString().trim();
+		const token = data.get('token')?.toString();
+
+		if (!articleId) return fail(400, { error: 'Article ID is required' });
+		if (!title) return fail(400, { error: 'Title is required' });
+		if (!body) return fail(400, { error: 'Body is required' });
+		if (!token) return fail(401, { error: 'Authentication required' });
+
+		try {
+			await editArticle(articleId, title, body, token);
+			return { success: true };
+		} catch (error) {
+			console.error('Error editing article:', error);
+			return fail(500, { error: 'Failed to edit article' });
 		}
 	},
 	deleteArticle: async ({ request }) => {
