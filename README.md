@@ -308,6 +308,7 @@ CONNECT EXISTING DATABASE:
 
 ### Where was I?
 
+- left off 260219 Adds getComments and createComment functionality in frontend. Removes vestigial server actions. Modernizes prop names. Cut branch to begin delete article work.
 - left off 260203 added integration tests for route accessing and permissions behaviors. Adds test db via docker. Test data is deleted after testing. began gateway setup.
 - left off 260130 created policy matrix. developed types and fixtures. broke testing apart into matrices, test runner, and test files.
 - left off 260128 (hbd mom !69!). Adds authenticate middleware to blog. Consumes authenticate in blog routes. Enforces authz in articles controller. Wrote a lot of good documentation to test authz. Enforces authz on comment create, edit and delete.
@@ -328,7 +329,7 @@ CONNECT EXISTING DATABASE:
 - wire frontend
   - add destructive actions/mutations abilities to frontend buttons.
     -- ✅ create article
-    -- create comment
+    -- ✅ create comment
     -- delete comment
     -- delete article
     -- edit article + UI
