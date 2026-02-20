@@ -13,10 +13,17 @@
 	<p>Posted on {new Date(createdAt).toLocaleDateString()}</p>
 	<p>Last updated on {new Date(updatedAt).toLocaleDateString()}</p>
 
-	{#if $auth.user && $auth.user.id === authorId}
-		<div class="flex flex-row gap-4">
+	<div class="flex flex-row gap-4">
+		{#if $auth.user && $auth.user.id === authorId}
 			<Button label="Edit Comment" type="button" theme="warning" />
-			<Button label="Delete Comment" type="button" theme="danger" />
-		</div>
-	{/if}
+		{/if}
+		{#if $auth.user && ($auth.user.id === authorId || $auth.user.role === 'ADMIN')}
+			<form method="POST" action="?/deleteComment">
+				<input type="hidden" name="commentId" value={id} />
+				<input type="hidden" name="token" value={$auth.token || ''} />
+
+				<Button label="Delete Comment" type="submit" theme="danger" />
+			</form>
+		{/if}
+	</div>
 </div>
