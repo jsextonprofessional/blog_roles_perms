@@ -43,9 +43,18 @@ export async function editArticle(articleId: string, title: string, content: str
 }
 
 // delete an article
-export async function deleteArticle(articleId: string) {
+export async function deleteArticle(articleId: string, token?: string) {
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required');
+	}
+
 	return await apiFetch('blog', `articles/${articleId}`, {
-		method: 'DELETE'
+		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		}
 	});
 }
 
