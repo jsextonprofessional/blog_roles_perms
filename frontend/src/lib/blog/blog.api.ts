@@ -91,9 +91,17 @@ export async function editComment(commentId: string, content: string) {
 	});
 }
 
-// delete a comment
-export async function deleteComment(commentId: string) {
+export async function deleteComment(commentId: string, token?: string) {
+	const authToken = token || get(auth).token;
+
+	if (!authToken) {
+		throw new Error('Authentication required to delete comments');
+	}
+
 	return await apiFetch('blog', `comments/${commentId}`, {
-		method: 'DELETE'
+		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${authToken}`
+		}
 	});
 }
