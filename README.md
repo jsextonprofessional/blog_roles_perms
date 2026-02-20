@@ -309,7 +309,7 @@ CONNECT EXISTING DATABASE:
 
 ### Where was I?
 
-- left off 260220 Manually added deleteComment functionality to frontend.
+- left off 260220 Manually added deleteComment and deleteArticle functionality to frontend. Began editArticle. Updated readme and PR template.
 - left off 260219 Adds getComments and createComment functionality in frontend. Removes vestigial server actions. Modernizes prop names. Cut branch to begin delete article work.
 - left off 260203 added integration tests for route accessing and permissions behaviors. Adds test db via docker. Test data is deleted after testing. began gateway setup.
 - left off 260130 created policy matrix. developed types and fixtures. broke testing apart into matrices, test runner, and test files.
